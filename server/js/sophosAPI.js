@@ -1,9 +1,11 @@
-const dataRegion = "";
+let dotenv = require('dotenv').config()
+
+const dataRegion = dotenv.parsed.DATA_REGION;
 let access_token = null;
-let refresh_token = "";
-const clientId = "";
-const clietSecret = "";
-const tenantID = "";
+let refresh_token = dotenv.parsed.REFRESH_TOKEN;
+const clientId = dotenv.parsed.CLIENT_ID;
+const clietSecret = dotenv.parsed.CLIENT_SECRET;
+const tenantID = dotenv.parsed.TENANT_ID;
 
 async function runHealthCheckQuery() {
   if (!access_token) {
