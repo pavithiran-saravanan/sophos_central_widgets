@@ -1,7 +1,15 @@
 html{
     scrollbar-width: thin;
 }
-body{
+body, html{
     padding: 0px;
     margin: 0px;
+    height: 100%;
+}
+.widgetContainer{
+    width: 100%;
+    font-family: Helvetica, sans-serif;
+}
+.chartWidgetContainer{
+    height: 100%;
 }
