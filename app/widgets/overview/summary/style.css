@@ -1,0 +1,30 @@
+.widgetContainer{
+    font-family: Helvetica, sans-serif;
+    width: 100%;
+    max-width: 100%;
+}
+.summary-widget-container {
+    display: grid;
+    height: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    row-gap: 16px;
+    column-gap: 30px;
+}
+.overviewItem{
+    border-right: 1px solid lightgray;
+}
+.overviewItem:last-child {
+    border-right: none;
+}
+.itemTitle{
+    font-size: 12px;
+    font-weight: 200;
+    margin-bottom: 6px;
+}
+.itemValue {
+    font-size: 30px;
+    font-weight: 600;
+}
+.no-border{
+    border: none;
+}
