@@ -1,0 +1,10 @@
+[error] [2024-10-10T12:01:41.045Z] : uncaughtException: Assignment to constant variable.
+TypeError: Assignment to constant variable.
+    at D:\widgets\sophos_central_widgets\sophos_central_widgets\server\js\sophosAPI.js:281:14
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async whoAmI (D:\widgets\sophos_central_widgets\sophos_central_widgets\server\js\sophosAPI.js:279:3)
+[error] [2024-10-10T12:03:56.174Z] : uncaughtException: Assignment to constant variable.
+TypeError: Assignment to constant variable.
+    at D:\widgets\sophos_central_widgets\sophos_central_widgets\server\js\sophosAPI.js:282:14
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async whoAmI (D:\widgets\sophos_central_widgets\sophos_central_widgets\server\js\sophosAPI.js:280:3)
