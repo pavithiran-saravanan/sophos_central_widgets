@@ -199,7 +199,7 @@ async function getDetections() {
   return runDetectionsQuery().then((response)=>{
     const detectionsId = response.id;
     try {
-      return fetch(`https://api-${dataRegion}.central.sophos.com/detections/v1/queries/detections/${detectionsId}/results`, {
+      return fetch(`https://api-${dataRegion}.central.sophos.com/detections/v1/queries/detections/${detectionsId}/results?page=1&pageSize=1000`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${access_token}`,
