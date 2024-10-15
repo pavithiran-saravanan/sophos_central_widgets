@@ -4,7 +4,7 @@ const pieChart = {
     type: "pie",
   },
   title: {
-    text: "Top Alerts",
+    text: "",
     align: "left",
   },
   // subtitle: {
@@ -40,8 +40,9 @@ const pieChart = {
           },
           format: "{point.y:.1f}%",
           style: {
-            fontSize: "0.9em",
+            // fontSize: "0.9em",
             textOutline: "none",
+            color: "white"
           },
         },
       ],
@@ -88,8 +89,8 @@ async function setData(params) {
     seriesData.push({
       name: entry[0],
       label:
-        entry[0].length > 10 ? entry[0].slice(0, 10) + "..." : entry[0],
-      y: entry[1],
+        entry[0].length > 150 ? entry[0].slice(0, 10) + "..." : entry[0],
+      y: (entry[1]/items.length)*100,
     });
   });
 
