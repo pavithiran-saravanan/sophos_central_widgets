@@ -39,6 +39,9 @@ const donutChart = {
   title: {
     text: "",
   },
+  credits: {
+    enabled: false,
+  },
   legend: {
     align: "right",
     verticalAlign: "middle",

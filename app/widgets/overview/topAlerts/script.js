@@ -7,6 +7,9 @@ const pieChart = {
     text: "",
     align: "left",
   },
+  credits: {
+    enabled: false,
+  },
   // subtitle: {
   //     text: 'Click the slices to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>',
   //     align: 'left'

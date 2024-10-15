@@ -8,6 +8,10 @@ const chartData = {
         enabled: false 
     },
 
+    credits: {
+        enabled: false,
+    },
+
     tooltip: {
         formatter: function() {
             return `Threat Count: ${this.y}`; // Show only the y value
