@@ -12,7 +12,7 @@ async function setData() {
             },
             title: { text: undefined },
             xAxis: {
-                categories: ['Not On Recommended'],
+                visible: false
             },
             yAxis: {
                 min: 0,
