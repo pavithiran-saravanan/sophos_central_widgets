@@ -17,6 +17,7 @@ const {
   getEndpoints,
   getAlerts,
   getEvents,
+  getDetections,
   getUsers,
   getApplications,
 } = require("./js/sophosAPI");
@@ -94,6 +95,11 @@ portPromise.then((port) => {
 
   expressApp.get("/events", async (req, res) => {
     const data = await getEvents();
+    res.send(data);
+  });
+
+  expressApp.get("/detections", async (req, res) => {
+    const data = await getDetections();
     res.send(data);
   });
 

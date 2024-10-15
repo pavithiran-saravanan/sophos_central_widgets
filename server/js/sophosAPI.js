@@ -154,6 +154,76 @@ async function getEvents() {
   }
 }
 
+async function runDetectionsQuery() {
+  if (!access_token) {
+    Authenticate();
+  }
+  if (!tenantID) {
+    whoAmI();
+  }
+  try {
+    const res = await fetch(`https://api-${dataRegion}.central.sophos.com/detections/v1/queries/detections`, {
+      method: 'POST',
+      headers: {
+          'Authorization': `Bearer ${access_token}`,
+          'X-Tenant-ID': tenantID,
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({})
+    }).then(async (response) => {
+      const data = await response.json();
+      console.log("response Data : ", data);
+      if (response.status === 401) {
+        Authenticate();
+      }
+      if (!response.ok) {
+        throw new Error("Network response was not ok " + response.statusText);
+      }
+      return data;
+    });
+    return res;
+  } catch (err) {
+    console.log("error");
+    console.error(err);
+    return "Error";
+  }
+}
+
+async function getDetections() {
+  if (!access_token) {
+    Authenticate();
+  }
+  if (!tenantID) {
+    whoAmI();
+  }
+  return runDetectionsQuery().then((response)=>{
+    const detectionsId = response.id;
+    try {
+      return fetch(`https://api-${dataRegion}.central.sophos.com/detections/v1/queries/detections/${detectionsId}/results`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${access_token}`,
+            'X-Tenant-ID': tenantID
+        }
+    }).then(async (response) => {
+        const data = await response.json();
+        console.log("response Data : ", data);
+        if (response.status === 401) {
+          Authenticate();
+        }
+        if (!response.ok) {
+          throw new Error("Network response was not ok " + response.statusText);
+        }
+        return data;
+      });
+    } catch (err) {
+      console.log("error");
+      console.error(err);
+      return "Error";
+    }
+  })
+}
+
 async function getUsers() {
   if (!access_token) {
     Authenticate();
@@ -289,5 +359,6 @@ module.exports = {
   getAlerts,
   getUsers,
   getEvents,
+  getDetections,
   getApplications,
 };
