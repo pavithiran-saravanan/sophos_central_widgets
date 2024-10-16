@@ -1,0 +1,29 @@
+#tamperProtectionStatus{
+    height: 100%;
+    width: 100%;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+  
+td, th {
+    border-bottom: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    border-bottom: 0;
+}
+
+a {
+    color: blue;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a:hover {
+    text-decoration: underline;
+}
