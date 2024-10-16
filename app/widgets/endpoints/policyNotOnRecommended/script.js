@@ -8,20 +8,35 @@ async function setData() {
     
         Highcharts.chart('policyNotOnRecommended', {
             chart: {
-                type: 'column'
+                type: 'pie',
+                events: {
+                    render() {
+                        const series = this.series[0];
+                        const total = series.yData.reduce((sum, value) => sum + value, 0);
+                    
+                        this.customLabel = this.renderer
+                            .label(`<strong>${total}</strong></br>
+                                    <small style="font-size: 0.8em; color: #888;">Total</small>
+                                `)
+                            .css({
+                                color: '#000',
+                                fontSize: `${series.center[2] / 12}px`,
+                                textAnchor: 'middle'
+                            })
+                            .add();
+                    
+                        const x = series.center[0] + this.plotLeft;
+                        const y = series.center[1] + this.plotTop - (this.customLabel.attr('height') / 2) / 2;
+                        this.customLabel.attr({ x, y });
+                    }
+                },
             },
             title: { text: undefined },
-            xAxis: {
-                visible: false
+            legend: {
+                align: 'right',
+                verticalAlign: 'middle',
+                layout: 'vertical'
             },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: 'Count'
-                },
-                allowDecimals: false,
-            },
-            colors: ['#236484', '#2B8AB9'],
             plotOptions: {
                 series: {
                     allowPointSelect: true,
@@ -32,7 +47,7 @@ async function setData() {
                         events: {
                             click: (event) => {
                                 console.log('Clicked point:', event)
-                                return false
+                                return false;
                             }
                         }
                     },
@@ -40,11 +55,11 @@ async function setData() {
                 }
             },
             series: [{
-                name: 'Computer',
-                data: [policy.computer['threat-protection'].notOnRecommended]
-            },{
-                name: 'Server',
-                data: [policy.server['server-threat-protection'].notOnRecommended]
+                name: 'Endpoint Status',
+                colorByPoint: true,
+                innerSize: '60%',
+                colors: ['#B87F18', '#E4CE2C'],
+                data: [{name: 'Computer', y: policy.computer['threat-protection'].notOnRecommended},{name: 'Server', y: policy.server['server-threat-protection'].notOnRecommended}]
             }]
         });
     } catch (error) {
