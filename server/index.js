@@ -26,6 +26,8 @@ const endpointRouter = require("./js/sophosAPI/endpointAPI");
 const alertRouter = require("./js/sophosAPI/alertsAPI");
 const eventRouter = require("./js/sophosAPI/eventsAPI");
 const detectionRouter = require("./js/sophosAPI/detectionAPI");
+const APProtectionRouter = require("./js/sophosAPI/AAProtectionAPI");
+const scanEndpointRouter = require("./js/sophosAPI/scanEndpointAPI");
 
 process.env.PWD = process.env.PWD || process.cwd();
 
@@ -92,20 +94,8 @@ portPromise.then((port) => {
   expressApp.use("/alerts", alertRouter);
   expressApp.use("/events", eventRouter);
   expressApp.use("/detections", detectionRouter);
-  // expressApp.get("/endpoints", async (req, res) => {
-  //   const data = await getEndpoints();
-  //   res.send(data);
-  // });
-
-  // expressApp.get("/alerts", async (req, res) => {
-  //   const data = await getAlerts();
-  //   res.send(data);
-  // });
-
-  // expressApp.get("/events", async (req, res) => {
-  //   const data = await getEvents();
-  //   res.send(data);
-  // });
+  expressApp.use("/adaptive-attack-protection", APProtectionRouter);
+  expressApp.use("/scans", scanEndpointRouter);
 
   expressApp.get("/users", async (req, res) => {
     const data = await getUsers();
