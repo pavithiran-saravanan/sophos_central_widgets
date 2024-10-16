@@ -17,7 +17,7 @@ async function setData() {
             yAxis: {
                 min: 0,
                 title: {
-                    text: 'Score'
+                    text: 'Count'
                 },
                 allowDecimals: false,
             },
