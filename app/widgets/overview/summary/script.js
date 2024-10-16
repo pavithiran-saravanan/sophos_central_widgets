@@ -13,9 +13,7 @@ function getPath(str) {
 }
 async function setData(params) {
   console.log("fetching data...");
-  const alerts = await fetch("/alerts").then(
-    async (res) => await res.json()
-  );
+  const alerts = await fetch("/alerts").then(async (res) => await res.json());
   console.log("data ", alerts);
   const alertCount = document.getElementById("alertCount");
   alertCount.innerText = alerts.items.length;
@@ -38,9 +36,7 @@ async function setData(params) {
   const applicationData = await fetch("/applications").then(
     async (res) => await res.json()
   );
-  const appConnectionsCount = document.getElementById(
-    "appConnectionsCount"
-  );
+  const appConnectionsCount = document.getElementById("appConnectionsCount");
   appConnectionsCount.innerText = applicationData.pages.items;
 
   const eventsData = await fetch("/events").then(
@@ -57,9 +53,7 @@ async function setData(params) {
   const threatActorsCount = document.getElementById("threatActorsCount");
   threatActorsCount.innerText = threatActors;
 
-  const usersData = await fetch("/users").then(
-    async (res) => await res.json()
-  );
+  const usersData = await fetch("/users").then(async (res) => await res.json());
   const usersCount = document.getElementById("usersCount");
   usersCount.innerText = usersData.items.length;
 }

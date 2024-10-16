@@ -2,6 +2,7 @@
 Copyright (c) 2017, ZOHO CORPORATION
 License: MIT
 */
+require("dotenv").config();
 const portfinder = require("portfinder");
 var fs = require("fs");
 var path = require("path");
@@ -20,6 +21,11 @@ const {
   getUsers,
   getApplications,
 } = require("./js/sophosAPI");
+
+const endpointRouter = require("./js/sophosAPI/endpointAPI");
+const alertRouter = require("./js/sophosAPI/alertsAPI");
+const eventRouter = require("./js/sophosAPI/eventsAPI");
+const detectionRouter = require("./js/sophosAPI/detectionAPI");
 
 process.env.PWD = process.env.PWD || process.cwd();
 
@@ -82,20 +88,24 @@ portPromise.then((port) => {
     res.send(data);
   });
 
-  expressApp.get("/endpoints", async (req, res) => {
-    const data = await getEndpoints();
-    res.send(data);
-  });
+  expressApp.use("/endpoints", endpointRouter);
+  expressApp.use("/alerts", alertRouter);
+  expressApp.use("/events", eventRouter);
+  expressApp.use("/detections", detectionRouter);
+  // expressApp.get("/endpoints", async (req, res) => {
+  //   const data = await getEndpoints();
+  //   res.send(data);
+  // });
 
-  expressApp.get("/alerts", async (req, res) => {
-    const data = await getAlerts();
-    res.send(data);
-  });
+  // expressApp.get("/alerts", async (req, res) => {
+  //   const data = await getAlerts();
+  //   res.send(data);
+  // });
 
-  expressApp.get("/events", async (req, res) => {
-    const data = await getEvents();
-    res.send(data);
-  });
+  // expressApp.get("/events", async (req, res) => {
+  //   const data = await getEvents();
+  //   res.send(data);
+  // });
 
   expressApp.get("/users", async (req, res) => {
     const data = await getUsers();

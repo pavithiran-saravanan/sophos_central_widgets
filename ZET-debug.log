@@ -1,0 +1,50 @@
+[error] [2024-10-10T07:21:07.499Z] : uncaughtException: Authentication Error
+Error: Authentication Error
+    at D:\sophos_central_widgets-1\server\js\sophosAPI.js:245:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Authenticate (D:\sophos_central_widgets-1\server\js\sophosAPI.js:230:5)
+[error] [2024-10-14T09:38:56.135Z] : uncaughtException: Network response was not ok Unauthorized
+Error: Network response was not ok Unauthorized
+    at D:\sophos_central_widgets-1\server\js\sophosAPI\endpointAPI.js:44:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getEndpoints (D:\sophos_central_widgets-1\server\js\sophosAPI\endpointAPI.js:27:15)
+[error] [2024-10-14T09:41:33.098Z] : uncaughtException: Network response was not ok 
+Error: Network response was not ok 
+    at D:\sophos_central_widgets-1\server\js\sophosAPI\endpointAPI.js:69:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getEndpointDetails (D:\sophos_central_widgets-1\server\js\sophosAPI\endpointAPI.js:53:15)
+[error] [2024-10-14T09:42:10.747Z] : uncaughtException: Network response was not ok 
+Error: Network response was not ok 
+    at D:\sophos_central_widgets-1\server\js\sophosAPI\endpointAPI.js:70:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getEndpointDetails (D:\sophos_central_widgets-1\server\js\sophosAPI\endpointAPI.js:54:15)
+[error] [2024-10-14T09:43:17.293Z] : uncaughtException: Network response was not ok 
+Error: Network response was not ok 
+    at D:\sophos_central_widgets-1\server\js\sophosAPI\endpointAPI.js:70:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getEndpointDetails (D:\sophos_central_widgets-1\server\js\sophosAPI\endpointAPI.js:54:15)
+[error] [2024-10-14T09:45:25.729Z] : uncaughtException: Network response was not ok 
+Error: Network response was not ok 
+    at D:\sophos_central_widgets-1\server\js\sophosAPI\endpointAPI.js:69:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getEndpointDetails (D:\sophos_central_widgets-1\server\js\sophosAPI\endpointAPI.js:53:15)
+[error] [2024-10-14T09:48:32.093Z] : uncaughtException: Network response was not ok 
+Error: Network response was not ok 
+    at D:\sophos_central_widgets-1\server\js\sophosAPI\endpointAPI.js:70:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getEndpointDetails (D:\sophos_central_widgets-1\server\js\sophosAPI\endpointAPI.js:54:15)
+[error] [2024-10-14T11:48:21.524Z] : uncaughtException: Assignment to constant variable.
+TypeError: Assignment to constant variable.
+    at D:\sophos_central_widgets-1\server\js\sophosAPI.js:281:14
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async whoAmI (D:\sophos_central_widgets-1\server\js\sophosAPI.js:279:3)
+[error] [2024-10-14T12:26:34.895Z] : uncaughtException: response is not defined
+ReferenceError: response is not defined
+    at D:\sophos_central_widgets-1\server\js\sophosAPI\alertsAPI.js:28:5
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getAlerts (D:\sophos_central_widgets-1\server\js\sophosAPI\alertsAPI.js:16:15)
+[error] [2024-10-14T12:27:38.968Z] : uncaughtException: response is not defined
+ReferenceError: response is not defined
+    at D:\sophos_central_widgets-1\server\js\sophosAPI\alertsAPI.js:33:56
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getAlerts (D:\sophos_central_widgets-1\server\js\sophosAPI\alertsAPI.js:16:15)
