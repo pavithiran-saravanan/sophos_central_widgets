@@ -1,0 +1,37 @@
+.widgetsParent{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.widgetContainer{
+    height: 230px;
+    flex: 1;
+    min-width: 430px;
+    padding: 18px;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+}
+
+.widgetContainer.chartWidgetContainer{
+    height: 230px;
+}
+
+.tableWidgetContainer{
+    overflow: scroll;
+}
+
+.widgetContainer.summaryWidgetContainer{
+    min-width: 300px;
+    overflow-y: scroll;
+}
+
+.widgetContainer.overviewWidgetContainer{
+    flex-basis: 30%;
+}
+
+.widgetTitle{
+    /* padding-bottom: 10px; */
+    font-size: 14px;
+    font-weight: 600;
+}
