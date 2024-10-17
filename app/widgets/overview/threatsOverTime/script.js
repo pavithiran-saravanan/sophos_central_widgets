@@ -1,4 +1,8 @@
 const chartData = {
+    chart: {
+        type: 'line',
+    },
+
     title: {
         text: '',
         align: 'left'
@@ -14,7 +18,7 @@ const chartData = {
 
     tooltip: {
         formatter: function() {
-            return `Threat Count: ${this.y}`; // Show only the y value
+            return 'Time: ' + new Date(this.x).toUTCString() + '<br>' +  'Threats: ' + this.y;
         }
     },
 
@@ -34,16 +38,12 @@ const chartData = {
         	text: 'Time'
         },
         type: 'datetime',  // Set the x-axis to handle time
-        tickInterval: 3600 * 1000,  // 1-hour intervals
-        labels: {
-            format: '{value:%H:%M}',  // Format time as HH:MM
-        },
-        min: (new Date()).getTime() - 24 * 3600 * 1000,  // Set range to the last 24 hours
+        tickInterval: 3600000,
         max: (new Date()).getTime()  // Set the max to current time
     },
 
-legend: {
-				enabled: false
+    legend: {
+        enabled: false
     },
 
     plotOptions: {
@@ -81,10 +81,11 @@ legend: {
 };
 
 function getHourBucket(isoString) {
+    // return new Date(isoString).getTime();
     const [datePart, timePart] = isoString.split('T');
     const [year, month, day] = datePart.split('-');
-    const [hour] = timePart.split(':'); // Get the hour, ignore minutes and seconds
-    return new Date(Date.UTC(year, month - 1, day, hour)).getTime();
+    const [hour, minute, second] = timePart.split(':'); // Get the hour & minute. Ignore seconds
+    return Date.UTC(year, month - 1, day, hour, minute);
 }
 
 async function setData(params) {
@@ -92,8 +93,8 @@ async function setData(params) {
     const data = await fetch("/events").then(
         async (res) => await res.json()
     );
+    console.log(data);
     const events = data.items;
-    console.log(events);
 
     // Parse data
     let hourlyCounter = {};
