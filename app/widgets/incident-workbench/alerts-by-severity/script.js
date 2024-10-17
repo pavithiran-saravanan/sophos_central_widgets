@@ -60,7 +60,11 @@ async function setData() {
           }
         });
 
-        pieChart.series[0].data = [high, medium, low];
+        pieChart.series[0].data = [
+          { name: "High", y: high },
+          { name: "Medium", y: medium },
+          { name: "Low", y: low },
+        ];
         Highcharts.chart("container", pieChart);
       }
     }
