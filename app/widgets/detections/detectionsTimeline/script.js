@@ -193,7 +193,7 @@ function createActionsDropdown(actions) {
     // Dropdown menu
     const dropdownMenu = createElement('ul', 'dropdown-menu');
     actions.forEach(action => {
-        const actionItem = createElement('li', '', action);
+        const actionItem = createElement('li', action.split(' ')[0], action);
         dropdownMenu.appendChild(actionItem);
     });
     dropdownWrapper.appendChild(dropdownMenu);
@@ -202,6 +202,18 @@ function createActionsDropdown(actions) {
     actionsButton.addEventListener('click', function() {
         dropdownMenu.classList.toggle('show');
     });
+
+    // Handle dropdown item selection
+    dropdownMenu.addEventListener('click', (event)=>{
+        // Record selection
+        const clickedListItem = event.target;
+
+        // Trigger action
+        console.log(clickedListItem.className + " event triggered");
+
+        // Close the menu
+        dropdownMenu.classList.remove('show');
+    })
 
     // Hide dropdown if clicked outside
     document.addEventListener('click', function(event) {
