@@ -254,12 +254,16 @@ h3 {
 }
 
 .titleContainer{
-  border-left: 4px solid red;
   padding: 10px 20px;
   background-color: whitesmoke;
   display: grid;
   gap: 3px;
-}
+} 
+.titleContainer.critical{border-left: 4px solid red;}
+.titleContainer.high{border-left: 4px solid rgb(255, 102, 0);}
+.titleContainer.medium{border-left: 4px solid orange;}
+.titleContainer.low{border-left: 4px solid green;}
+.titleContainer.info{border-left: 4px solid gray;}
 
 .detectionTitle{
   font-size: 14px;

@@ -79,6 +79,14 @@ function renderTimeline() {
 // Initialize
 // renderTimeline();
 
+// Helper function to obtain severity class for severity number
+function getSeverityClass(severity){
+    if(severity > 10) return "critical";
+    if(severity >= 8) return "high";
+    if(severity >= 4) return "medium";
+    if(severity >= 1) return "low";
+    else return "info";
+}
 
 // DateTime Component
 function getDateTimeComponent(date='2024-09-18', time='10:17:05'){
@@ -100,7 +108,7 @@ function getDateTimeComponent(date='2024-09-18', time='10:17:05'){
 // TitleDescription Component
 function getTitleComponent(title, description, severity="high"){
     const titleContainer = document.createElement('div');
-    titleContainer.classList.add('titleContainer');
+    titleContainer.classList.add('titleContainer', severity);
 
     const titleElement = document.createElement('div');
     titleElement.classList.add('detectionTitle');
