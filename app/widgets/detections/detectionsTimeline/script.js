@@ -206,8 +206,9 @@ function createActionsDropdown(actions) {
 }
 
 // Function to handle tab switching
-function switchTab(tabName, data, showActions) {
-    const contentArea = document.querySelector('.details-content-area');
+function switchTab(tabList, data, showActions) {
+    const detectionContainer = tabList.parentElement;
+    const contentArea = detectionContainer.querySelector('.details-content-area');
     contentArea.innerHTML = ''; // Clear previous content
     contentArea.appendChild(createDetailsSection(data, showActions)); // Insert new content
 }
@@ -228,9 +229,10 @@ function createDetectionWidget() {
         const tabElement = createElement('li', 'tab', tab.name);
         if (tab.name === 'Detection') tabElement.classList.add('active'); // Highlight active tab initially
         tabElement.addEventListener('click', function() {
-            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            // When a tab is clicked, remove active class from all the other tabs in the tab group
+            tabList.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
             tabElement.classList.add('active');
-            switchTab(tab.name, tab.data, tab.showActions);
+            switchTab(tabList, tab.data, tab.showActions);
         });
         tabList.appendChild(tabElement);
     });
