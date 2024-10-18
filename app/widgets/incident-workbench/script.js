@@ -101,7 +101,7 @@ function loadAlerts() {
       loadAlertBySeverity(alertEvents);
       loadAlertSources(alertEvents);
       loadThreatLocation(alertEvents);
-      loadAlertsBySeverityTable(alertEvents);
+      //loadAlertsBySeverityTable(alertEvents);
     }
   });
 }
@@ -126,6 +126,7 @@ function loadThreats() {
           }
         });
       }
+      const total = cleanable + faliedCleanup;
       const seriesData = [
         { name: "Cleanable", y: cleanable },
         { name: "Non-Cleanable", y: faliedCleanup },
@@ -142,7 +143,7 @@ function loadThreats() {
 
               if (!customLabel) {
                 customLabel = chart.options.chart.custom.label = chart.renderer
-                  .label(`Total<br/><strong>${10}</strong>`)
+                  .label(`Total<br/><p style="color:#ccc">${total}</p>`)
                   .css({
                     color: "#000",
                     textAnchor: "middle",
@@ -191,7 +192,7 @@ function loadThreats() {
         colors: ["#80BB4F", "#DD3F3E"],
         series: [
           {
-            name: "Endpoints",
+            name: "Count",
             type: "pie",
             colorByPoint: true,
             innerSize: "75%",
@@ -287,7 +288,7 @@ function loadDetectionMITRE() {
 
           series: [
             {
-              name: "MITRE Attack",
+              name: "Count",
               data: seriesData,
               color: "#7300e6",
             },
@@ -445,12 +446,12 @@ function loadAlertBySeverity(alerts) {
       },
       series: [
         {
-          name: "Severity",
+          name: "Count",
           data: seriesData,
           point: {
             events: {
               click: function (event) {
-                //console.log(event);
+                loadAlertsBySeverityTable(alerts, this.name.toLowerCase());
                 switchDrillDown(true);
               },
             },
@@ -480,7 +481,7 @@ function loadThreatLocation(alerts) {
     Object.entries(threatLocation).map((entry) => {
       const path = entry[0];
       const y = entry[1];
-      seriesData.push({ path, y });
+      seriesData.push({ name: path, y });
     });
 
     Highcharts.chart("alertThreatLocation", {
@@ -515,8 +516,8 @@ function loadThreatLocation(alerts) {
       tooltip: {
         headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
         pointFormat:
-          '<span style="color:{point.color}">{point.path}</span>: ' +
-          "<b>{point.y:.2f}%</b>",
+          '<span style="color:{point.color}">{point.name}</span>: ' +
+          "<b>{point.y}</b>",
       },
 
       series: [
@@ -530,15 +531,29 @@ function loadThreatLocation(alerts) {
   }
 }
 
-function loadAlertsBySeverityTable(alerts) {
+function loadAlertsBySeverityTable(alerts, currSeverity) {
   let tableData = "<table><tr><th>Alerts</th><th>Alert Created At</th></tr>";
   alerts.map((alert) => {
-    const { when, name, description } = alert;
-    const row = `<tr><td>${description}</td><td>${when}</td></tr>`;
-    tableData += row;
+    const { when, name, type, description, threat, severity } = alert;
+    if (currSeverity === severity) {
+      const title = threat
+        ? threat
+        : name
+        ? name
+        : type.substring(type.lastIndexOf(":"));
+      const timePart = new Date(when).toISOString().split("T")[1].split(".")[0];
+      const row = `<tr>
+                <td><div class="alert-content">
+                  <div class="heading">Alert : ${title}</div>
+                  <div class="description">${description}</div>
+                </div></td>
+                <td>${timePart}</td>
+                </tr>`;
+      tableData += row;
+    }
   });
   tableData += "</table>";
-  console.log(tableData);
+
   document.getElementById("alertSeverityTable").innerHTML = tableData;
 }
 
