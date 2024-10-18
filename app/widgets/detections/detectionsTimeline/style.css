@@ -100,7 +100,7 @@ h3 {
 
 
 #detectionTimelineWidget{
-  margin-left: 15px;
+  margin-top: 15px;
 }
 
 /* Component */
@@ -144,7 +144,7 @@ h3 {
 
 .details-label {
   /* font-weight: bold; */
-  width: 200px;
+  min-width: 180px;
   display: block;
   position: relative;
 }
@@ -221,7 +221,7 @@ h3 {
 .dateTimeContainer{
   border-right: 1px solid #ddd;
   position: relative;
-  width: 90px;
+  min-width: 90px;
   box-sizing: border-box;
 }
 

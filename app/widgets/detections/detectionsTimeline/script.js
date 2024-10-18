@@ -234,18 +234,20 @@ function switchTab(tabList, data, showActions) {
 }
 
 // Function to create and append the entire component
-function createDetectionWidget() {
+function createDetectionWidget(detectionTabData, mitreTabData, geoTabData, intelixTabData) {
     const detectionContainer = createElement('div', 'detection-container hide');
     
     // Create and append tab header
     const tabList = createElement('ul', 'tab-list');
     const tabs = [
-        { name: 'Detection', data: detectionDetailsData, showActions: true },
-        { name: 'Mitre', data: mitreDetailsData, showActions: false },
-        { name: 'Geolocation', data: geolocationDetailsData, showActions: false },
-        { name: 'IntelixFileReputation', data: intelixFileReputationData, showActions: false }
+        { name: 'Detection', data: detectionTabData, showActions: true },
+        { name: 'Mitre', data: mitreTabData, showActions: false },
+        { name: 'Geolocation', data: geoTabData, showActions: false },
+        { name: 'IntelixFileReputation', data: intelixTabData, showActions: false }
     ];
     tabs.forEach(tab => {
+        if(!tab.data)return;
+        if(Object.keys(tab.data).length === 0) return;
         const tabElement = createElement('li', 'tab', tab.name);
         if (tab.name === 'Detection') tabElement.classList.add('active'); // Highlight active tab initially
         tabElement.addEventListener('click', function() {
@@ -271,7 +273,7 @@ function createDetectionWidget() {
 // Call the function to build and append the widget
 createDetectionWidget();
 
-function createDetectionContainer(){
+function createDetectionContainer(date, time, title, desc, severity, detectionData, mitreData, geoData, inteliData){
     // Create Item Container
     const detectionItem = document.createElement('div');
     detectionItem.classList.add('detectionItem');
@@ -281,13 +283,13 @@ function createDetectionContainer(){
     titleDetailsContainer.classList.add('titleDetailsContainer');
 
     // Get titleElement
-    const titleElement = getTitleComponent(detectionDetailsData["Detection Attack"], detectionDetailsData["Detection Name"]);
+    const titleElement = getTitleComponent(title, desc, severity);
 
     // Add elements to titleDetailsContainer
-    titleDetailsContainer.append(titleElement, createDetectionWidget());
+    titleDetailsContainer.append(titleElement, createDetectionWidget(detectionData, mitreData, geoData, inteliData));
 
     // Add elements to container
-    detectionItem.append(getDateTimeComponent(), titleDetailsContainer);
+    detectionItem.append(getDateTimeComponent(date, time), titleDetailsContainer);
 
     // Add to dom
     document.querySelector('#timeline').append(detectionItem, getGapElement());
@@ -307,6 +309,68 @@ function getGapElement(){
 }
 
 // Populate timeline with n number of detection items
-for(let i = 0; i < 5; i++){
-    createDetectionContainer();
+// for(let i = 0; i < 5; i++){
+//     createDetectionContainer();
+// }
+
+function camelCaseToCapitalizedSpace(obj) {
+    const newObj = {};
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            const spacedKey = key.replace(/([a-z])([A-Z])/g, '$1 $2')
+                .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize first letter of each word
+            newObj[spacedKey] = obj[key];
+        }
+    }
+    return newObj;
 }
+
+async function setData(params) {
+    console.log("fetching data...");
+    const data = await fetch("/detections").then(
+      async (res) => await res.json()
+    );
+    console.log(data);
+    const detectionsList = data.items;
+
+    detectionsList.forEach((detection)=>{
+        // Get date time -> Construct date time component
+        const dateTimeSplit = detection.time.split('T');
+        const date = dateTimeSplit[0];
+        const time = dateTimeSplit[1].split('.')[0];
+
+        // Get title description -> Construct title description component
+        const title = detection.attackType;
+        const description = detection.detectionRule;
+        const severity = getSeverityClass(detection.severity);
+
+        // detectionTabData
+        let detectionTabData = {
+            "Device Entity": detection.device.entity,
+            "Detection Name": detection.attackType,
+            "Detection Rule": detection.detectionRule,
+            "Detection Attack": detection.detectionAttack,
+            "Device Id": detection.device.id,
+            "Device Type": detection.device.type
+        };
+        // mitreTabData
+        let mitreTabData = {};
+        if(detection.mitreAttacks && detection.mitreAttacks.length > 0){
+            mitreTabData = camelCaseToCapitalizedSpace(detection.mitreAttacks[0]);
+            console.log(mitreTabData)
+        }
+
+        // geolocationTabData - detection.geolocation[0] has an object which has to be converted to object
+        const geolocationTabData = camelCaseToCapitalizedSpace(detection.geolocation[0]);
+
+        // intelixFileReputationTabData
+        let intelixTabData = {};
+        if(detection.intelixFileReputation){
+            intelixTabData = camelCaseToCapitalizedSpace(detection.intelixFileReputation[0]);
+        }
+
+        createDetectionContainer(date, time, title, description, severity, detectionTabData, mitreTabData, geolocationTabData, intelixTabData);
+    })
+}
+
+setData();
