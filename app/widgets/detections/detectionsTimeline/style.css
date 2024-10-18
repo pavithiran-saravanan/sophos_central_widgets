@@ -1,0 +1,283 @@
+/* body {
+  font-family: Arial, sans-serif;
+}
+
+.timeline-container {
+  width: 80%;
+  margin: 20px auto;
+}
+
+h3 {
+  margin-bottom: 15px;
+}
+
+#search {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#filters {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.filter-button, .clear-button {
+  padding: 8px 12px;
+  border: none;
+  background-color: #eee;
+  cursor: pointer;
+}
+
+.filter-button:hover, .clear-button:hover {
+  background-color: #ddd;
+}
+
+#timeline {
+  border-left: 2px solid #ddd;
+  padding-left: 20px;
+}
+
+.timeline-item {
+  margin-bottom: 15px;
+  position: relative;
+  padding-left: 20px;
+}
+
+.timeline-item:before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 0;
+  width: 10px;
+  height: 10px;
+  background-color: #999;
+  border-radius: 50%;
+}
+
+.timeline-item .time {
+  font-size: 12px;
+  color: #555;
+}
+
+.timeline-item .event {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.timeline-item .details {
+  background-color: #f9f9f9;
+  border-left: 2px solid #ddd;
+  padding: 10px;
+  margin-top: 5px;
+  display: none;
+}
+
+.timeline-item .actions {
+  margin-top: 5px;
+}
+
+.timeline-item .actions button {
+  padding: 5px 10px;
+  margin-right: 5px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+}
+
+.timeline-item .actions button:hover {
+  background-color: #45a049;
+} */
+
+
+
+
+
+
+#detectionTimelineWidget{
+  margin-left: 15px;
+}
+
+/* Component */
+.detection-container {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 8px 22px;
+  font-family: Arial, sans-serif;
+}
+
+.tab-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.tab {
+  padding: 5px 15px 8px 15px;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+}
+
+.tab.active {
+  border-bottom: 4px solid #4CAF50; /* Green underline for active tab */
+  font-weight: bold;
+}
+
+.details-content-area {
+  padding-top: 15px;
+  font-size: 12px;
+}
+
+.details-item {
+  margin-bottom: 10px;
+  display: flex;
+}
+
+.details-label {
+  /* font-weight: bold; */
+  width: 200px;
+  display: block;
+  position: relative;
+}
+
+.details-label + span{
+  display: inline-block;
+  padding-left: 20px;
+}
+
+.details-label::after{
+  content: ":";
+  right: -0px;
+  position: absolute;
+}
+
+.actions-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.actions-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  color: rgb(70, 155, 207);
+  border-left: 1px solid #ddd;
+  padding-left: 10px;
+  margin-left: 10px;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+  z-index: 1;
+  list-style-type: none;
+  padding: 4px 0px;
+  margin: 0;
+  border: 1px solid #ddd;
+}
+
+.dropdown-menu li {
+  padding: 6px 12px;
+  cursor: pointer;
+  width: 190px;
+}
+
+.dropdown-menu li:hover {
+  background-color: #f1f1f1;
+}
+
+/* Show dropdown menu */
+.show {
+  display: block;
+}
+
+
+
+
+/* My Styles */
+
+.detectionItem{
+  display: flex;
+  gap: 25px;
+  width: 100%;
+  cursor: pointer;
+  padding: 0px 20px;
+  box-sizing: border-box;
+}
+
+.dateTimeContainer{
+  border-right: 1px solid #ddd;
+  position: relative;
+  width: 90px;
+  box-sizing: border-box;
+}
+
+.dateTimeContainer::after{
+  content: "";
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #ddd;
+  position: absolute;
+  right: -6.5px;
+  top: 20px;
+}
+
+.detectionTime{
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.detectionDate{
+  font-size: 13px;
+  color: gray;
+}
+
+.titleDetailsContainer{
+  flex: 1;
+  display: grid;
+  gap: 15px;
+}
+
+.titleContainer{
+  border-left: 4px solid red;
+  padding: 10px 20px;
+  background-color: whitesmoke;
+  display: grid;
+  gap: 3px;
+}
+
+.detectionTitle{
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.detectionDescription{
+  color: gray;
+  font-size: 10px;
+}
+
+.detection-container.hide{
+  display: none;
+}
+
+.gapline{
+  padding-left: 20px;
+  height: 15px;
+  width: 90px;
+  border-right: 1px solid #ddd;
+}
