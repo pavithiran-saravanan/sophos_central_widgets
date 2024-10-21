@@ -122,6 +122,10 @@ function switchTab(tabList, data, showActions) {
     const contentArea = detectionContainer.querySelector('.details-content-area');
     contentArea.innerHTML = ''; // Clear previous content
     contentArea.appendChild(createDetailsSection(data, showActions)); // Insert new content
+    // If Intelix tab, show reputation score widget
+    if(data["Reputation Score"]){
+        contentArea.appendChild(getIntelixReputationWidget(data["Reputation Score"]));
+    }
 }
 
 // Function to create and append the entire component
@@ -253,6 +257,31 @@ async function setData(params) {
 
         createDetectionContainer(date, time, title, description, severity, detectionTabData, mitreTabData, geolocationTabData, intelixTabData);
     })
+}
+
+function getIntelixReputationWidget(score){
+    const reputationScoreWidget = createElement("div", "reputationScoreWidget");
+    const scorePointerContainer = createElement("div", "scorePointerContainer");
+    const scorePointer = createElement("div", "scorePointer");
+    const scoreBar = createElement("div", "scoreBar");
+    const scoreText = createElement("div", "scoreText");
+    const scoreValue = createElement("span", "scoreValue", score);
+
+    // Score Pointer Container
+    scorePointerContainer.append(scorePointer);
+    scorePointer.style.left = 12 + (score / 100) * 76 + '%';
+
+    // Score Bar
+    for(let i = 0; i < 5; i++){
+        scoreBar.appendChild(createElement("span"));
+    }
+
+    // Score Text
+    scoreText.textContent = "Reputation Score = ";
+    scoreText.append(scoreValue);
+
+    reputationScoreWidget.append(scorePointerContainer, scoreBar, scoreText);
+    return reputationScoreWidget;
 }
 
 setData();
