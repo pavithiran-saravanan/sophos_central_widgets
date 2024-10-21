@@ -1,83 +1,4 @@
-// Dummy data for detection timeline
-const detections = [
-    {
-        time: "10:17:05",
-        date: "2019-07-08",
-        event: "HTTP traffic from asset DEV01-39X-1 matched IDS signature for threat CVE-2021-44228 Exploit",
-        details: "Device Entity: DEV01-39X-1\nDetection Name: CVE-2021-44228 Exploit\nSeverity: Critical",
-        detection: {
-            deviceId: "6f56511d-f3f9-4c39-9b7b-113cc6a638fd",
-            deviceType: "computer",
-            deviceEntity: "subash-17785",
-            detectionName: "Security Event Service Detections",
-            detectionRule: "WIN-PROT-BEHAVIORAL-MALWARE-DISRUPT-2A-T1574-002",
-            detectionAttack: "Defense Evasion",
-        },
-        mitre:[
-            {
-                "tactic": {
-                    "id": "TA0005",
-                    "name": "Defense Evasion",
-                    "techniques": [
-                        {
-                            "id": "T1574.002",
-                            "name": "DLL Side-Loading"
-                        }
-                    ]
-                }
-            }
-        ],
-        geoLocation:[
-            {
-                city: "Bengaluru",
-                country: "India",
-                countryCode: "IN",
-                fieldName: "raw.meta_public_ip",
-                fieldValue: "152.58.246.237",
-                latitude: 12.9634,
-                longitude: 77.5855,
-                postal: "560002",
-                state: "Karnataka",
-            }
-        ],
-        intelixFileReputation:[
-            {
-                fieldName: "raw.process_sha256",
-                fieldValue: "9097abe1330f8e438c3f0d78ca677454f4191506c342bebaa19665787c7c8df7",
-                reputationScore: 54
-            }
-        ]
-    },
-];
 const actions = ["Isolate", "Delete", "Scan", "Update Adaptive Attack Protection"];
-
-// Function to render the timeline
-function renderTimeline() {
-    const timeline = document.getElementById('timeline');
-    timeline.innerHTML = ''; // Clear previous content
-
-    detections.forEach(detection => {
-        const item = document.createElement('div');
-        item.classList.add('timeline-item');
-
-        item.innerHTML = `
-            <div class="time">${detection.time}</div>
-            <div class="event">${detection.event}</div>
-            <div class="details">${detection.details}</div>
-            <div class="actions">${detection.actions.map(action => `<button>${action}</button>`).join('')}</div>
-        `;
-
-        item.querySelector('.event').addEventListener('click', () => {
-            const details = item.querySelector('.details');
-            details.style.display = details.style.display === 'none' ? 'block' : 'none';
-        });
-
-        timeline.appendChild(item);
-    });
-}
-
-// Initialize
-// renderTimeline();
 
 // Helper function to obtain severity class for severity number
 function getSeverityClass(severity){
@@ -121,36 +42,6 @@ function getTitleComponent(title, description, severity="high"){
     titleContainer.append(titleElement, descriptionElement);
     return titleContainer;
 }
-
-// Detection Details Component
-const detectionDetailsData = {
-    "Device Entity": "EC2AMAZ-HKOG4LG",
-    "Detection Name": "WIN-EXE-DM-SUS-POWERSHELL-SCRIPT-BLOCK-1",
-    "Detection Rule": "WIN-PER-PSH-ADD-SERVICE-REG-1",
-    "Detection Attack": "Defense Evasion",
-    "Device Id": "0569f2b7-756c-4d16-8804-798a6d0030cf",
-    "Device Type": "sensor"
-};
-
-const mitreDetailsData = {
-    "Technique": "T1059.001 - PowerShell",
-    "Tactic": "Execution",
-    "Procedure": "Obfuscated PowerShell Commands"
-};
-
-const geolocationDetailsData = {
-    "Country": "United States",
-    "City": "Los Angeles",
-    "Latitude": "34.0522",
-    "Longitude": "-118.2437"
-};
-
-const intelixFileReputationData = {
-    "File Name": "malicious.exe",
-    "File Hash": "abc123def456gh7890",
-    "Reputation": "Malicious",
-    "Detected By": "IntelliX Scanner"
-};
 
 // Function to create a new element with attributes
 function createElement(tag, className = '', textContent = '') {
@@ -262,16 +153,13 @@ function createDetectionWidget(detectionTabData, mitreTabData, geoTabData, intel
 
     // Create content area for details
     const contentArea = createElement('div', 'details-content-area');
-    contentArea.appendChild(createDetailsSection(detectionDetailsData, true)); // Default content: Detection tab with actions
+    contentArea.appendChild(createDetailsSection(detectionTabData, true)); // Default content: Detection tab with actions
     detectionContainer.appendChild(contentArea);
 
     // Append the detectionContainer to the DOM
     // document.body.appendChild(detectionContainer);
     return detectionContainer;
 }
-
-// Call the function to build and append the widget
-createDetectionWidget();
 
 function createDetectionContainer(date, time, title, desc, severity, detectionData, mitreData, geoData, inteliData){
     // Create Item Container
@@ -308,23 +196,6 @@ function getGapElement(){
     return gapline;
 }
 
-// Populate timeline with n number of detection items
-// for(let i = 0; i < 5; i++){
-//     createDetectionContainer();
-// }
-
-function camelCaseToCapitalizedSpace(obj) {
-    const newObj = {};
-    for (let key in obj) {
-        if (obj.hasOwnProperty(key)) {
-            const spacedKey = key.replace(/([a-z])([A-Z])/g, '$1 $2')
-                .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize first letter of each word
-            newObj[spacedKey] = obj[key];
-        }
-    }
-    return newObj;
-}
-
 async function setData(params) {
     console.log("fetching data...");
     const data = await fetch("/detections").then(
@@ -334,18 +205,18 @@ async function setData(params) {
     const detectionsList = data.items;
 
     detectionsList.forEach((detection)=>{
-        // Get date time -> Construct date time component
+        // Get data for dateTimeComponent
         const dateTimeSplit = detection.time.split('T');
         const date = dateTimeSplit[0];
         const time = dateTimeSplit[1].split('.')[0];
 
-        // Get title description -> Construct title description component
+        // Get data for titleComponent
         const title = detection.attackType;
         const description = detection.detectionRule;
         const severity = getSeverityClass(detection.severity);
 
-        // detectionTabData
-        let detectionTabData = {
+        // Get data for tabs
+        const detectionTabData = {
             "Device Entity": detection.device.entity,
             "Detection Name": detection.attackType,
             "Detection Rule": detection.detectionRule,
@@ -353,20 +224,31 @@ async function setData(params) {
             "Device Id": detection.device.id,
             "Device Type": detection.device.type
         };
-        // mitreTabData
+        const geolocationTabData = {
+            "Public IP": detection.geolocation[0].fieldValue,
+            "City": detection.geolocation[0].city,
+            "State": detection.geolocation[0].state,
+            "Country": detection.geolocation[0].country,
+            "Country Code": detection.geolocation[0].countryCode,
+            "Postal": detection.geolocation[0].postal,
+            "Latitude": detection.geolocation[0].latitude,
+            "Longitude": detection.geolocation[0].longitude,
+        }
         let mitreTabData = {};
         if(detection.mitreAttacks && detection.mitreAttacks.length > 0){
-            mitreTabData = camelCaseToCapitalizedSpace(detection.mitreAttacks[0]);
-            console.log(mitreTabData)
+            mitreTabData = {
+                "Tactic Id": detection.mitreAttacks[0].tactic.id,
+                "Tactic Name": detection.mitreAttacks[0].tactic.name,
+                "Technique Id": detection.mitreAttacks[0].tactic.techniques[0].id,
+                "Technique Name": detection.mitreAttacks[0].tactic.techniques[0].name,
+            }
         }
-
-        // geolocationTabData - detection.geolocation[0] has an object which has to be converted to object
-        const geolocationTabData = camelCaseToCapitalizedSpace(detection.geolocation[0]);
-
-        // intelixFileReputationTabData
         let intelixTabData = {};
         if(detection.intelixFileReputation){
-            intelixTabData = camelCaseToCapitalizedSpace(detection.intelixFileReputation[0]);
+            intelixTabData = {
+                "sha256": detection.intelixFileReputation[0].fieldValue,
+                "Reputation Score": detection.intelixFileReputation[0].reputationScore,
+            }
         }
 
         createDetectionContainer(date, time, title, description, severity, detectionTabData, mitreTabData, geolocationTabData, intelixTabData);
