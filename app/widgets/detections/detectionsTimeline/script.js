@@ -52,7 +52,7 @@ function createElement(tag, className = '', textContent = '') {
 }
 
 // Function to construct the details section based on data provided
-function createDetailsSection(data, showActions) {
+function createDetailsSection(data, showActions, showBlock) {
     const content = createElement('div', 'details-content');
     
     Object.keys(data).forEach(key => {
@@ -65,6 +65,10 @@ function createDetailsSection(data, showActions) {
         // Add actions dropdown only beside the Device Entity in Detection tab
         if (showActions && key === "Device Entity") {
             item.appendChild(createActionsDropdown(actions));
+        }
+
+        if (showBlock && key === "sha256") {
+            item.appendChild(createElement('button', 'actions-button block-button', 'Block'));
         }
 
         content.appendChild(item);
@@ -117,11 +121,11 @@ function createActionsDropdown(actions) {
 }
 
 // Function to handle tab switching
-function switchTab(tabList, data, showActions) {
+function switchTab(tabList, data, showActions, showBlock) {
     const detectionContainer = tabList.parentElement;
     const contentArea = detectionContainer.querySelector('.details-content-area');
     contentArea.innerHTML = ''; // Clear previous content
-    contentArea.appendChild(createDetailsSection(data, showActions)); // Insert new content
+    contentArea.appendChild(createDetailsSection(data, showActions, showBlock)); // Insert new content
     // If Intelix tab, show reputation score widget
     if(data["Reputation Score"]){
         contentArea.appendChild(getIntelixReputationWidget(data["Reputation Score"]));
@@ -138,7 +142,7 @@ function createDetectionWidget(detectionTabData, mitreTabData, geoTabData, intel
         { name: 'Detection', data: detectionTabData, showActions: true },
         { name: 'Mitre', data: mitreTabData, showActions: false },
         { name: 'Geolocation', data: geoTabData, showActions: false },
-        { name: 'IntelixFileReputation', data: intelixTabData, showActions: false }
+        { name: 'IntelixFileReputation', data: intelixTabData, showActions: false, showBlock: true }
     ];
     tabs.forEach(tab => {
         if(!tab.data)return;
@@ -149,7 +153,7 @@ function createDetectionWidget(detectionTabData, mitreTabData, geoTabData, intel
             // When a tab is clicked, remove active class from all the other tabs in the tab group
             tabList.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
             tabElement.classList.add('active');
-            switchTab(tabList, tab.data, tab.showActions);
+            switchTab(tabList, tab.data, tab.showActions, tab.showBlock);
         });
         tabList.appendChild(tabElement);
     });
