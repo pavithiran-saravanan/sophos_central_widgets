@@ -1,24 +1,30 @@
 .detectionsHeatMapContainer {
     grid-area: 1 / 3 / 2 / 9;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 #detectionsHeatMap {
     font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-    overflow: scroll;
+    height: 100%;
+    overflow-y: scroll;
 }
 
 #detectionsHeatMapWidget {
     display: flex;
-    /* gap: 20px; */
+    margin-left: -15px;
 }
 
 .attackContainer {
     display: flex;
+    height: 100%;
     flex-direction: column;
     gap: 10px;
-    width: 300px;
+    width: 220px;
     border-right: 1px solid lightgray;
-    padding: 20px;
+    padding: 0px 15px;
   }
 
 .attackContainer:last-child{
@@ -27,13 +33,29 @@
   
   .attackName {
     font-weight: bold;
+    font-size: 12px;
+  }
+
+  .attackCount{
+    font-size: 10px;
+    font-weight: bold;
+    color: gray;
+  }
+
+  .techniqueId{
+    font-size: 12px;
+    /* font-weight: 400; */
+  }
+
+  .techniqueName{
+    font-size: 10px;
   }
   
   .techniqueContainer {
     background-color: rgb(255, 231, 166);
     display: grid;
     gap: 5px;
-    padding: 15px;
+    padding: 12px 10px;
     border-radius: 5px;
   }
   .techniqueContainer.info {
@@ -54,4 +76,48 @@
   
   .techniqueId {
     font-weight: bold;
+  }
+
+  /* Legend */
+  .legend-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 10px 0px;
+  }
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .legend-color {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  
+  .legend-label {
+    font-size: 10px;
+  }
+  
+  .legend-color.critical {
+    background-color: #fd9d9d;
+  }
+  
+  .legend-color.high {
+    background-color: #f8d99c;
+  }
+  
+  .legend-color.medium {
+    background-color: #9efadb;
+  }
+  
+  .legend-color.low {
+    background-color: #c8cfd5;
+  }
+  
+  .legend-color.info {
+    background-color: #e2e5ea;
   }

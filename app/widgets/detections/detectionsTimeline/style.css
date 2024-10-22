@@ -1,0 +1,246 @@
+#detectionTimelineWidget{
+  margin-top: 15px;
+}
+
+/* Component */
+.detection-container {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 8px 22px;
+  font-family: Arial, sans-serif;
+}
+
+.tab-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.tab {
+  padding: 5px 15px 8px 15px;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+}
+
+.tab.active {
+  border-bottom: 3px solid #6fbb53; /* Green underline for active tab */
+  font-weight: bold;
+}
+
+.details-content-area {
+  padding-top: 15px;
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.details-item {
+  margin-bottom: 10px;
+  display: flex;
+}
+
+.details-label {
+  /* font-weight: bold; */
+  min-width: 180px;
+  display: block;
+  position: relative;
+}
+
+.details-label + span{
+  display: inline-block;
+  padding-left: 20px;
+}
+
+.details-label::after{
+  content: ":";
+  right: -0px;
+  position: absolute;
+}
+
+.actions-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.actions-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  color: rgb(70, 155, 207);
+  border-left: 1px solid #ddd;
+  padding-left: 10px;
+  margin-left: 10px;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+  z-index: 1;
+  list-style-type: none;
+  padding: 4px 0px;
+  margin: 0;
+  border: 1px solid #ddd;
+}
+
+.dropdown-menu li {
+  padding: 6px 12px;
+  cursor: pointer;
+  width: 190px;
+}
+
+.dropdown-menu li:hover {
+  background-color: #f1f1f1;
+}
+
+/* Show dropdown menu */
+.show {
+  display: block;
+}
+
+.detectionItem{
+  display: flex;
+  gap: 25px;
+  width: 100%;
+  cursor: pointer;
+  padding: 0px 20px;
+  box-sizing: border-box;
+}
+
+.dateTimeContainer{
+  border-right: 1px solid #ddd;
+  position: relative;
+  min-width: 90px;
+  box-sizing: border-box;
+}
+
+.dateTimeContainer::after{
+  content: "";
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #ddd;
+  position: absolute;
+  right: -6.5px;
+  top: 20px;
+}
+
+.detectionTime{
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.detectionDate{
+  font-size: 13px;
+  color: gray;
+}
+
+.titleDetailsContainer{
+  flex: 1;
+  display: grid;
+  gap: 15px;
+}
+
+.titleContainer{
+  padding: 10px 20px;
+  background-color: whitesmoke;
+  display: grid;
+  gap: 3px;
+} 
+.titleContainer.critical{border-left: 4px solid red;}
+.titleContainer.high{border-left: 4px solid rgb(255, 102, 0);}
+.titleContainer.medium{border-left: 4px solid orange;}
+.titleContainer.low{border-left: 4px solid green;}
+.titleContainer.info{border-left: 4px solid gray;}
+
+.detectionTitle{
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.detectionDescription{
+  color: gray;
+  font-size: 10px;
+}
+
+.detection-container.hide{
+  display: none;
+}
+
+.gapline{
+  padding-left: 20px;
+  height: 15px;
+  width: 90px;
+  border-right: 1px solid #ddd;
+}
+
+/* Intelix Reputation Score Widget */
+.reputationScoreWidget{
+  width: 300px;
+}
+.scorePointerContainer{
+  border-bottom: 1.5px solid black;
+  margin-bottom: 2px;
+  position: relative;
+}
+.scorePointerContainer::before{
+  content: "0";
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  font-size: 12px;
+}
+.scorePointerContainer::after{
+  content: "100";
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  font-size: 12px;
+}
+.scorePointer{
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 7px solid black;
+  position: absolute;
+  bottom: 2px;
+}
+.scoreBar{
+  display: flex;
+  height: 20px;
+  margin-bottom: 5px;
+}
+.scoreBar>span{
+  flex: 1;
+}
+.scoreBar>span:nth-child(1){
+  background-color: red;
+}
+.scoreBar>span:nth-child(2){
+  background-color: rgb(255, 98, 0);
+}
+.scoreBar>span:nth-child(3){
+  background-color: rgb(255, 162, 0);
+}
+.scoreBar>span:nth-child(4){
+  background-color: rgb(80, 167, 53);
+}
+.scoreBar>span:nth-child(5){
+  background-color: green;
+}
+.scoreText{
+  font-size: 12px;
+}
+.scoreValue{
+  font-weight: bold;
+}

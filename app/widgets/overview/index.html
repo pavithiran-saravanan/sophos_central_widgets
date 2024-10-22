@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="score/style.css" />
+    <link rel="stylesheet" href="summary/style.css" />
+    <link rel="stylesheet" href="threatActors/style.css" />
+    <link rel="stylesheet" href="cleanableVsNonCleanableThreats/style.css" />
+    <link rel="stylesheet" href="threatsOverTime/style.css" />
+    <link rel="stylesheet" href="topAlerts/style.css" />
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Common Stylesheet -->
+    <link rel="stylesheet" href="/app/css/style.css" />
+    <link rel="icon" type="image/x-icon" href="/app/images/favicon.ico" />
+
+    <!-- Scripts -->
+    <script type="module" src="score/script.js" defer></script>
+    <script type="module" src="summary/script.js" defer></script>
+    <script type="module" src="threatActors/script.js" defer></script>
+    <script type="module" src="threatsOverTime/script.js" defer></script>
+    <script
+      type="module"
+      src="cleanableVsNonCleanableThreats/script.js"
+      defer
+    ></script>
+    <script type="module" src="topAlerts/script.js" defer></script>
+
+    <script src="/app/js/jquery-min.js"></script>
+    <script src="/app/js/ZSDK.js"></script>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/heatmap.js"></script>
+    <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/maps/modules/map.js"></script>
+    <script src="https://code.highcharts.com/mapdata/custom/world.js"></script>
+    <title>Log360 Cloud Widget</title>
+  </head>
+
+  <body>
+    <div class="widgetsParent">
+      <!-- Summary -->
+      <div class="widgetContainer summaryWidgetContainer">
+        <div class="widgetTitle">Summary</div>
+        <div id="summaryWidget" class="summary-widget-container">
+          <div class="overviewItem">
+            <div class="itemTitle">Alerts</div>
+            <div class="itemValue" id="alertCount">0</div>
+          </div>
+          <div class="overviewItem">
+            <div class="itemTitle">Infected Endpoints</div>
+            <div class="itemValue" id="infectedEndpointsCount">0</div>
+          </div>
+
+          <div class="overviewItem">
+            <div class="itemTitle">App Connections</div>
+            <div class="itemValue" id="appConnectionsCount">0</div>
+          </div>
+          <div class="overviewItem">
+            <div class="itemTitle">Web Connections</div>
+            <div class="itemValue" id="webConnectionsCount">0</div>
+          </div>
+
+          <div class="overviewItem">
+            <div class="itemTitle">Threat Actors</div>
+            <div class="itemValue" id="threatActorsCount">0</div>
+          </div>
+          <div class="overviewItem">
+            <div class="itemTitle">Users</div>
+            <div class="itemValue" id="usersCount">0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Score -->
+      <div
+        class="widgetContainer chartWidgetContainer scoreWidgetContainer"
+        id=""
+      >
+        <div class="widgetTitle">Score</div>
+        <div id="scoreChart" class=""></div>
+        <div id="container"></div>
+      </div>
+
+      <!-- Threat Actors -->
+      <div class="widgetContainer tableWidgetContainer" id="">
+        <div class="widgetTitle">Threat Actors</div>
+        <div id="table-container"></div>
+        <div class="container"></div>
+      </div>
+
+      <!-- Cleanable vs Non-Cleanable Threats -->
+      <div class="widgetContainer chartWidgetContainer" id="">
+        <div class="widgetTitle">Cleanable Vs Non-Cleanable Threats</div>
+        <div id="endpointsHealth" class=""></div>
+        <div class="container"></div>
+      </div>
+
+      <!-- Threats Over Time -->
+      <div class="widgetContainer chartWidgetContainer" id="">
+        <div class="widgetTitle">Threats Over Time</div>
+        <div id="threatsOverTime" class=""></div>
+        <div class="container"></div>
+      </div>
+
+      <!-- Top Alerts -->
+      <div class="widgetContainer chartWidgetContainer" id="">
+        <div class="widgetTitle">Top Alerts</div>
+        <div id="top-alerts" class=""></div>
+        <div class="container"></div>
+      </div>
+    </div>
+  </body>
+</html>

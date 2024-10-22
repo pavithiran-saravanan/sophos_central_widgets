@@ -1,0 +1,47 @@
+.widgetsParent{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.widgetContainer{
+    height: 280px;
+    padding: 18px;
+    border: 1px solid lightgrey;
+    box-sizing: border-box;
+    border-radius: 5px;
+    flex: 1 1 49%;
+    min-width: 0;
+}
+
+.widgetContainer.chartWidgetContainer{
+    height: 280px;
+}
+
+.tableWidgetContainer{
+    overflow-y: scroll;
+    scrollbar-width: thin;
+}
+
+.widgetContainer.summaryWidgetContainer{
+    /* flex-basis: 10%; */
+    flex: 0;
+    min-width: 350px;
+}
+
+.widgetContainer.scoreWidgetContainer{
+}
+
+.widgetTitle{
+    font-size: 14px;
+    font-weight: 600;
+}
+
+@media (max-width: 730px) {
+    .widgetContainer {
+      flex: 1 1 100%;  /* On smaller screens, each item will take the full row */
+    }
+    .widgetContainer.summaryWidgetContainer{
+        flex: 1 1 100%;
+    }
+}
