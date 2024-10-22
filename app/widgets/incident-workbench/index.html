@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="style.css" />
+
+    <script src="script.js" defer></script>
+    <script src="/app/js/jquery-min.js"></script>
+    <script src="/app/js/ZSDK.js"></script>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+
+    <title>Incident Workbench</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div><h1>Date picker</h1></div>
+        <div class="flex-container">
+          <div class="container">
+            <h1 id="scanStatus"></h1>
+            <button onclick="scanEndpoint()">Scan Endpoint</button>
+          </div>
+          <div class="container">
+            <h1 id="protectionStatus"></h1>
+            <button onclick="updateAAP()">
+              update Adaptive Attack Protection
+            </button>
+          </div>
+          <div class="container">
+            <h1 id="isolationStatus"></h1>
+          </div>
+        </div>
+      </div>
+      <div class="widgetContainer">
+        <div class="summary-details widget" id="summaryDetails">
+          <div class="summary-header">Summary</div>
+          <div id="summaryDetailsTable"></div>
+        </div>
+        <div class="alerts-by-severity widget" id="alertsBySeverity"></div>
+        <div class="threats widget" id="threats"></div>
+        <div class="detection-mitre widget" id="detectionMITRE"></div>
+        <div class="alert-sources widget" id="alertSources"></div>
+        <div
+          class="alert-threat-location widget"
+          id="alertThreatLocation"
+        ></div>
+      </div>
+      <div class="alert-severity" id="alertsBySeverityTableContainer">
+        <div class="header">
+          <h3>Alerts By Severity</h3>
+          <button onclick="switchDrillDown(false)">Back</button>
+        </div>
+        <div id="alertSeverityTable">
+          <table>
+            <tr>
+              <th>Alerts</th>
+              <th>Created At</th>
+            </tr>
+            <tr>
+              <td>
+                <div class="alert-content">
+                  <div class="heading"></div>
+                  <div class="description"></div>
+                </div>
+              </td>
+              <td></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

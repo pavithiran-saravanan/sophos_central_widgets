@@ -12,18 +12,15 @@ var morgan = require("morgan");
 var serveIndex = require("serve-index");
 var https = require("https");
 var chalk = require("chalk");
-const {
-  runHealthCheckQuery,
-  getEndpoints,
-  getAlerts,
-  getEvents,
-  getDetections,
-  getUsers,
-  getApplications,
-  runDetectionQuery,
-  getDetectionQueryStatus,
-  getDetectionQueryResults,
-} = require("./js/sophosAPI");
+
+const endpointRouter = require("./js/sophosAPI/endpointAPI");
+const alertRouter = require("./js/sophosAPI/alertsAPI");
+const eventRouter = require("./js/sophosAPI/eventsAPI");
+const detectionRouter = require("./js/sophosAPI/detectionAPI");
+const APProtectionRouter = require("./js/sophosAPI/AAProtectionAPI");
+const scanEndpointRouter = require("./js/sophosAPI/scanEndpointAPI");
+const healthCheckRouter = require("./js/sophosAPI/healthCheckAPI");
+const commonRouter = require("./js/sophosAPI/commonAPI");
 
 process.env.PWD = process.env.PWD || process.cwd();
 
@@ -81,55 +78,15 @@ portPromise.then((port) => {
     res.redirect("/app");
   });
 
-  expressApp.get("/detections/run", async (req, res) => {
-    const data = await runDetectionQuery();
-    res.send(data);
-  });
+  expressApp.use("/endpoints", endpointRouter);
+  expressApp.use("/alerts", alertRouter);
+  expressApp.use("/events", eventRouter);
+  expressApp.use("/detections", detectionRouter);
+  expressApp.use("/adaptive-attack-protection", APProtectionRouter);
+  expressApp.use("/scans", scanEndpointRouter);
+  expressApp.use("/health-check", healthCheckRouter);
+  expressApp.use("/common", commonRouter);
 
-  expressApp.get("/detections/status", async (req, res) => {
-    const data = await getDetectionQueryStatus(req.query.queryId);
-    res.send(data);
-  });
-
-  expressApp.get("/detections/results", async (req, res) => {
-    const data = await getDetectionQueryResults(req.query.queryId);
-    res.send(data);
-  });
-
-  expressApp.get("/scores", async (req, res) => {
-    const data = await runHealthCheckQuery();
-    res.send(data);
-  });
-
-  expressApp.get("/endpoints", async (req, res) => {
-    const data = await getEndpoints();
-    res.send(data);
-  });
-
-  expressApp.get("/alerts", async (req, res) => {
-    const data = await getAlerts();
-    res.send(data);
-  });
-
-  expressApp.get("/events", async (req, res) => {
-    const data = await getEvents();
-    res.send(data);
-  });
-
-  expressApp.get("/detections", async (req, res) => {
-    const data = await getDetections();
-    res.send(data);
-  });
-
-  expressApp.get("/users", async (req, res) => {
-    const data = await getUsers();
-    res.send(data);
-  });
-
-  expressApp.get("/applications", async (req, res) => {
-    const data = await getApplications();
-    res.send(data);
-  });
   var options = {
     key: fs.readFileSync("./key.pem"),
     cert: fs.readFileSync("./cert.pem"),

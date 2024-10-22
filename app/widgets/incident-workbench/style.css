@@ -1,0 +1,141 @@
+* {
+  padding: 0px;
+  margin: 0px;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.widget {
+  border: 1px solid #ccc;
+  display: grid;
+  height: 400px;
+}
+
+.widgetContainer {
+  margin: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+}
+
+/* .alert-severity {
+  padding: 10px;
+  margin: 10px;
+  display: none;
+} */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px;
+}
+
+/* .alert-severity td {
+  padding-bottom: 16px;
+  padding-top: 16px;
+  padding-left: 7px;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.alert-severity tr {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.alert-severity tr:nth-child(1) {
+  background-color: #f2f2f2;
+  padding: 5px;
+}
+
+.alert-severity table {
+  width: 100%;
+  border-collapse: collapse;
+} */
+
+.summary-details {
+  overflow: scroll;
+}
+.summary-details td {
+  padding-bottom: 16px;
+  padding-top: 16px;
+  padding-left: 7px;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.summary-details table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.summary-header {
+  font-size: 1.2em;
+  color: rgb(51, 51, 51);
+  font-weight: bold;
+  fill: rgb(51, 51, 51);
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.flex-container {
+  display: flex;
+  gap: 10px;
+}
+
+.alert-severity {
+  width: 100%;
+  display: none;
+}
+
+.alert-severity .header {
+  display: flex;
+  justify-content: space-between;
+  margin: 30px;
+}
+
+.alert-severity table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.alert-severity tr:nth-child(1) {
+  background-color: #f2f2f2;
+  padding: 5px;
+}
+
+.alert-severity td,
+th {
+  padding: 10px;
+  margin: 10px 5px;
+  max-width: 200px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.alert-severity td {
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.alert-content {
+  margin: 5px 1px;
+  border-left: 3px solid #ff1a1a;
+  overflow: scroll;
+}
+
+.alert-content * {
+  margin-left: 5px;
+}
+
+.heading {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.description {
+  color: #ccc;
+  font-size: medium;
+}
+
+button {
+  padding: 5px;
+  font-weight: bold;
+}

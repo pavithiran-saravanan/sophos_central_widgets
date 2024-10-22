@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="script.js" defer></script>
+    <script src="/app/js/jquery-min.js"></script>
+    <script src="/app/js/ZSDK.js"></script>
+
+    <title>Log360 Cloud Widget</title>
+  </head>
+
+  <body>
+    <div class="widgetContainer">
+      <div class="container">
+        <h1 id="isolateStatus"></h1>
+        <button onclick="isolateEndpoint()">Isolate Endpoint</button>
+      </div>
+      <div class="container">
+        <h1 id="deleteStatus"></h1>
+        <button onclick="deleteEndpoint()">Delete Endpoint</button>
+      </div>
+      <div class="container">
+        <h1 id="scanStatus"></h1>
+        <button onclick="scanEndpoint()">Scan Endpoint</button>
+      </div>
+      <div class="container">
+        <h1 id="protectionStatus"></h1>
+        <button onclick="updateAAP()">update Adaptive Attack Protection</button>
+      </div>
+    </div>
+  </body>
+</html>
