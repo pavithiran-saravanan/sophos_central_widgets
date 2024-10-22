@@ -20,6 +20,8 @@ const {
   getDetections,
   getUsers,
   getApplications,
+  blockItem,
+  unblockItem
 } = require("./js/sophosAPI");
 
 process.env.PWD = process.env.PWD || process.cwd();
@@ -112,6 +114,14 @@ portPromise.then((port) => {
     const data = await getApplications();
     res.send(data);
   });
+
+  expressApp.get("/blockItem/:fileName/:path/:sha256", async (req, res) => {
+    res.send(await blockItem(req.params));
+  });
+
+  expressApp.get("/unblockItem/:blockedItemId", async (req, res) => {
+  });
+
   var options = {
     key: fs.readFileSync("./key.pem"),
     cert: fs.readFileSync("./cert.pem"),

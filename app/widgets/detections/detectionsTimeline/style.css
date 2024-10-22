@@ -35,6 +35,8 @@
   padding-top: 15px;
   font-size: 12px;
   display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   justify-content: space-between;
   align-items: center;
 }
@@ -186,6 +188,7 @@
 /* Intelix Reputation Score Widget */
 .reputationScoreWidget{
   width: 300px;
+  padding: 5px;
 }
 .scorePointerContainer{
   border-bottom: 1.5px solid black;

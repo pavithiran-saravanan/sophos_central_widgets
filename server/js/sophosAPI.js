@@ -295,6 +295,52 @@ async function getApplications() {
     return "Error";
   }
 }
+
+async function blockItem({fileName, path, sha256}) {
+  if (!access_token) {
+    Authenticate();
+  }
+  if (!tenantID) {
+    whoAmI();
+  }
+  try {
+    const res = await fetch(`https://api-${dataRegion}.central.sophos.com/endpoint/v1/settings/blocked-items`, {
+      method: 'POST',
+      headers: {
+          'Authorization': `Bearer ${access_token}`,
+          'X-Tenant-ID': tenantID,
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "type": "sha256",
+        "properties": {
+            "fileName": fileName,
+            "path": path,
+            "sha256": sha256
+        },
+        "comment": "Block Item Test"
+      })
+    }).then(async (response) => {
+      const data = await response.json();
+      console.log("response Data : ", data);
+      if (response.status === 401) {
+        Authenticate();
+      }
+      // if (!response.ok) {
+      //   throw new Error("Network response was not ok " + response.statusText);
+      // }
+      return data;
+    });
+    return res;
+  } catch (err) {
+    console.error(err);
+    return err;
+  }
+}
+
+async function unblockItem() {
+}
+
 async function Authenticate() {
   try {
     await fetch("https://id.sophos.com/api/v2/oauth2/token", {
@@ -361,4 +407,6 @@ module.exports = {
   getEvents,
   getDetections,
   getApplications,
+  blockItem,
+  unblockItem
 };

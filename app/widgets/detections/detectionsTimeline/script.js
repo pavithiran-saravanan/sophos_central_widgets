@@ -51,8 +51,29 @@ function createElement(tag, className = '', textContent = '') {
     return el;
 }
 
+function createBlockActionButton(blockActionParams){
+    const blockButton = createElement('button', 'actions-button block-button', 'Block');
+    blockButton.addEventListener('click', (e)=>{
+        // Make a block request and log response to console
+        fetch(`/blockItem/${blockActionParams.fileName}/${blockActionParams.path}/${blockActionParams.sha256}`)
+        .then(response=>response.json())
+        .then((data)=>{
+            if(data.error){
+                console.error(data.error + ": " + data.message);
+            }
+            else if(data.id){
+                console.info("Item added to blocked items: " + data.id);
+            }
+        })
+
+        
+        console.log("Block action triggered for application: ", blockActionParams);
+    })
+    return blockButton;
+}
+
 // Function to construct the details section based on data provided
-function createDetailsSection(data, showActions, showBlock) {
+function createDetailsSection(data, showActions, showBlock, blockActionParams) {
     const content = createElement('div', 'details-content');
     
     Object.keys(data).forEach(key => {
@@ -68,7 +89,7 @@ function createDetailsSection(data, showActions, showBlock) {
         }
 
         if (showBlock && key === "sha256") {
-            item.appendChild(createElement('button', 'actions-button block-button', 'Block'));
+            item.appendChild(createBlockActionButton(blockActionParams));
         }
 
         content.appendChild(item);
@@ -121,11 +142,11 @@ function createActionsDropdown(actions) {
 }
 
 // Function to handle tab switching
-function switchTab(tabList, data, showActions, showBlock) {
+function switchTab(tabList, data, showActions, showBlock, blockActionParams) {
     const detectionContainer = tabList.parentElement;
     const contentArea = detectionContainer.querySelector('.details-content-area');
     contentArea.innerHTML = ''; // Clear previous content
-    contentArea.appendChild(createDetailsSection(data, showActions, showBlock)); // Insert new content
+    contentArea.appendChild(createDetailsSection(data, showActions, showBlock, blockActionParams)); // Insert new content
     // If Intelix tab, show reputation score widget
     if(data["Reputation Score"]){
         contentArea.appendChild(getIntelixReputationWidget(data["Reputation Score"]));
@@ -133,7 +154,7 @@ function switchTab(tabList, data, showActions, showBlock) {
 }
 
 // Function to create and append the entire component
-function createDetectionWidget(detectionTabData, mitreTabData, geoTabData, intelixTabData) {
+function createDetectionWidget(detectionTabData, mitreTabData, geoTabData, intelixTabData, blockActionParams) {
     const detectionContainer = createElement('div', 'detection-container hide');
     
     // Create and append tab header
@@ -153,7 +174,7 @@ function createDetectionWidget(detectionTabData, mitreTabData, geoTabData, intel
             // When a tab is clicked, remove active class from all the other tabs in the tab group
             tabList.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
             tabElement.classList.add('active');
-            switchTab(tabList, tab.data, tab.showActions, tab.showBlock);
+            switchTab(tabList, tab.data, tab.showActions, tab.showBlock, blockActionParams);
         });
         tabList.appendChild(tabElement);
     });
@@ -169,7 +190,7 @@ function createDetectionWidget(detectionTabData, mitreTabData, geoTabData, intel
     return detectionContainer;
 }
 
-function createDetectionContainer(date, time, title, desc, severity, detectionData, mitreData, geoData, inteliData){
+function createDetectionContainer(date, time, title, desc, severity, detectionData, mitreData, geoData, inteliData, blockActionParams){
     // Create Item Container
     const detectionItem = document.createElement('div');
     detectionItem.classList.add('detectionItem');
@@ -182,7 +203,7 @@ function createDetectionContainer(date, time, title, desc, severity, detectionDa
     const titleElement = getTitleComponent(title, desc, severity);
 
     // Add elements to titleDetailsContainer
-    titleDetailsContainer.append(titleElement, createDetectionWidget(detectionData, mitreData, geoData, inteliData));
+    titleDetailsContainer.append(titleElement, createDetectionWidget(detectionData, mitreData, geoData, inteliData, blockActionParams));
 
     // Add elements to container
     detectionItem.append(getDateTimeComponent(date, time), titleDetailsContainer);
@@ -211,6 +232,7 @@ async function setData(params) {
     );
     console.log(data);
     const detectionsList = data.items;
+    let detectionsWithIntelix = [];
 
     detectionsList.forEach((detection)=>{
         // Get data for dateTimeComponent
@@ -252,15 +274,23 @@ async function setData(params) {
             }
         }
         let intelixTabData = {};
+        let blockActionParams = {};
         if(detection.intelixFileReputation){
+            detectionsWithIntelix.push(detection);
             intelixTabData = {
                 "sha256": detection.intelixFileReputation[0].fieldValue,
                 "Reputation Score": detection.intelixFileReputation[0].reputationScore,
             }
+            blockActionParams = {
+                "fileName": detection.rawData.process_name,
+                "path": detection.rawData.process_sha256,
+                "sha256": detection.rawData.process_sha256
+            }
         }
 
-        createDetectionContainer(date, time, title, description, severity, detectionTabData, mitreTabData, geolocationTabData, intelixTabData);
+        createDetectionContainer(date, time, title, description, severity, detectionTabData, mitreTabData, geolocationTabData, intelixTabData, blockActionParams);
     })
+    console.log(detectionsWithIntelix)
 }
 
 function getIntelixReputationWidget(score){
