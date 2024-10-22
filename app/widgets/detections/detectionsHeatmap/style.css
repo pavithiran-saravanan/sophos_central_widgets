@@ -1,0 +1,57 @@
+.detectionsHeatMapContainer {
+    grid-area: 1 / 3 / 2 / 9;
+}
+
+#detectionsHeatMap {
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    overflow: scroll;
+}
+
+#detectionsHeatMapWidget {
+    display: flex;
+    /* gap: 20px; */
+}
+
+.attackContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 300px;
+    border-right: 1px solid lightgray;
+    padding: 20px;
+  }
+
+.attackContainer:last-child{
+    border: none;
+}
+  
+  .attackName {
+    font-weight: bold;
+  }
+  
+  .techniqueContainer {
+    background-color: rgb(255, 231, 166);
+    display: grid;
+    gap: 5px;
+    padding: 15px;
+    border-radius: 5px;
+  }
+  .techniqueContainer.info {
+    background-color: #e2e5ea;
+  }
+  .techniqueContainer.low {
+    background-color: #c8cfd5;
+  }
+  .techniqueContainer.medium {
+    background-color: #9efadb;
+  }
+  .techniqueContainer.high {
+    background-color: #f8d99c;
+  }
+  .techniqueContainer.critical {
+    background-color: #fd9d9d;
+  }
+  
+  .techniqueId {
+    font-weight: bold;
+  }

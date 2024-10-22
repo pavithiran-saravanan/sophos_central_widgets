@@ -17,8 +17,12 @@ const {
   getEndpoints,
   getAlerts,
   getEvents,
+  getDetections,
   getUsers,
   getApplications,
+  runDetectionQuery,
+  getDetectionQueryStatus,
+  getDetectionQueryResults,
 } = require("./js/sophosAPI");
 
 process.env.PWD = process.env.PWD || process.cwd();
@@ -77,6 +81,21 @@ portPromise.then((port) => {
     res.redirect("/app");
   });
 
+  expressApp.get("/detections/run", async (req, res) => {
+    const data = await runDetectionQuery();
+    res.send(data);
+  });
+
+  expressApp.get("/detections/status", async (req, res) => {
+    const data = await getDetectionQueryStatus(req.query.queryId);
+    res.send(data);
+  });
+
+  expressApp.get("/detections/results", async (req, res) => {
+    const data = await getDetectionQueryResults(req.query.queryId);
+    res.send(data);
+  });
+
   expressApp.get("/scores", async (req, res) => {
     const data = await runHealthCheckQuery();
     res.send(data);
@@ -94,6 +113,11 @@ portPromise.then((port) => {
 
   expressApp.get("/events", async (req, res) => {
     const data = await getEvents();
+    res.send(data);
+  });
+
+  expressApp.get("/detections", async (req, res) => {
+    const data = await getDetections();
     res.send(data);
   });
 

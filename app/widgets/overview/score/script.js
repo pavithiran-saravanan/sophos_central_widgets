@@ -6,12 +6,9 @@ const columnChart = {
   title: {
     text: "",
   },
-  //   subtitle: {
-  //     text:
-  //       'Source: <a target="_blank" ' +
-  //       'href="https://www.indexmundi.com/agriculture/?commodity=corn">indexmundi</a>',
-  //     align: "left",
-  //   },
+  credits: {
+    enabled: false,
+  },
   xAxis: {
     categories: [
       "protection",
