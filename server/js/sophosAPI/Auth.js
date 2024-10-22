@@ -21,7 +21,7 @@ async function Authenticate() {
       },
     }).then(async (res) => {
       const data = await res.json();
-      console.log("Auth response", data);
+      // console.log("Auth response", data);
       if (!res.ok) {
         throw new Error("Authentication Error", res);
       }

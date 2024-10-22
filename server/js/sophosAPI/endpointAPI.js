@@ -16,7 +16,7 @@ router.get("/:endpointID", async function (req, res) {
   try {
     const id = req.params.endpointID;
     const data = await getEndpointDetails(id);
-    console.log("data ", data);
+    // console.log("data ", data);
     res.send(data);
   } catch (err) {
     console.log(err);
@@ -28,7 +28,7 @@ router.delete("/", async function (req, res) {
   try {
     const { id } = req.query;
     const data = await deleteEndpoint(id);
-    console.log("data ", data);
+    // console.log("data ", data);
     res.send(data);
   } catch (err) {
     console.log(err);
@@ -40,7 +40,7 @@ router.get("/isolate", async (req, res) => {
   try {
     const { id } = req.query;
     const data = await getEndpointIsolation(id);
-    console.log("data ", data);
+    // console.log("data ", data);
     res.send(data);
   } catch (err) {
     console.log(err);
@@ -52,7 +52,7 @@ router.patch("/isolate", async (req, res) => {
   try {
     const { id } = req.body;
     const data = await isolateEndpoint(id);
-    console.log("data ", data);
+    // console.log("data ", data);
     res.send(data);
   } catch (err) {
     console.log(err);
@@ -72,7 +72,7 @@ async function getEndpoints() {
     }
   ).then(async (response) => {
     const data = await response.json();
-    console.log("response Data : ", data);
+    // console.log("response Data : ", data);
     if (response.status === 401) {
       await Authenticate();
       console.log("access _key", authProp.access_token);
@@ -98,7 +98,7 @@ async function getEndpointDetails(endpointID) {
     }
   ).then(async (response) => {
     const data = await response.json();
-    console.log("response Data : ", data);
+    // console.log("response Data : ", data);
     if (response.status === 401) {
       await Authenticate();
       console.log("new access_token", authProp.access_token);
@@ -120,15 +120,15 @@ async function deleteEndpoint(endpointID) {
         Authorization: `Bearer ${authProp.access_token}`,
         "X-Tenant-ID": authProp.tenantID,
         Accept: "application/json",
-      }
+      },
     }
   ).then(async (res) => {
     const data = await res.json();
-    console.log("response data", data);
+    // console.log("response data", data);
     if (res.status === 401) {
       await Authenticate();
       console.log("new access_token", authProp.access_token);
-      deleteEndpoint(endpointID)
+      deleteEndpoint(endpointID);
     }
     if (!res.ok) {
       throw new Error("Network response was not ok " + res.statusText);
@@ -147,16 +147,16 @@ async function getEndpointIsolation(endpointID) {
       headers: {
         Authorization: `Bearer ${authProp.access_token}`,
         "X-Tenant-ID": authProp.tenantID,
-        Accept: "application/json"
-      }
+        Accept: "application/json",
+      },
     }
   ).then(async (res) => {
     const data = await res.json();
-    console.log("response data", data);
+    // console.log("response data", data);
     if (res.status === 401) {
       await Authenticate();
       console.log("new access_token", authProp.access_token);
-      getEndpointIsolation(endpointID)
+      getEndpointIsolation(endpointID);
     }
     if (!res.ok) {
       throw new Error("Network response was not ok " + res.statusText);
@@ -179,17 +179,17 @@ async function isolateEndpoint(endpointID) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        "enabled": true,
-        "comment": "Isolate - Log360 Cloud"
+        enabled: true,
+        comment: "Isolate - Log360 Cloud",
       }),
     }
   ).then(async (res) => {
     const data = await res.json();
-    console.log("response data", data);
+    // console.log("response data", data);
     if (res.status === 401) {
       await Authenticate();
       console.log("new access_token", authProp.access_token);
-      isolateEndpoint(endpointID)
+      isolateEndpoint(endpointID);
     }
     if (!res.ok) {
       throw new Error("Network response was not ok " + res.statusText);

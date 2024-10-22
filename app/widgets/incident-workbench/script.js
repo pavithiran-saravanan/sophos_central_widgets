@@ -266,7 +266,7 @@ function loadDetectionMITRE() {
             categories,
             tickmarkPlacement: "on",
             lineWidth: 0,
-            min: 0, // Set the minimum value of the y-axis
+            min: 0,
           },
 
           yAxis: {

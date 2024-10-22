@@ -7,7 +7,7 @@ router.get("/", async (req, res) => {
   try {
     const data = await getDetections();
 
-    console.log("data ", data);
+    //console.log("data ", data);
     res.send(data);
   } catch (err) {
     console.log(err);
@@ -30,7 +30,7 @@ async function getDetections() {
     }
   ).then(async (res) => {
     const data = await res.json();
-    console.log("response data", data);
+    // console.log("response data", data);
     if (res.status === 401) {
       await Authenticate();
       console.log("new access_token", authProp.access_token);
@@ -58,7 +58,7 @@ async function setRunID() {
     }
   ).then(async (res) => {
     const data = await res.json();
-    console.log("response data ", data);
+    // console.log("response data ", data);
 
     if (res.status === 401) {
       await Authenticate();

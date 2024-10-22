@@ -25,7 +25,7 @@ async function getAlerts() {
     }
   ).then(async (res) => {
     const data = await res.json();
-    console.log("response data", data);
+    // console.log("response data", data);
     if (res.status === 401) {
       await Authenticate();
       console.log("new access_token", authProp.access_token);
