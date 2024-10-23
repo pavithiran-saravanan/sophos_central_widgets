@@ -247,3 +247,56 @@
 .scoreValue{
   font-weight: bold;
 }
+
+/* Alert Banner */
+.alertBannerContainer{
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  display: grid;
+  gap: 2px;
+}
+.banner {
+  /* position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  text-align: center; */
+  padding: 5px;
+  z-index: 1000;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+/* Success Banner */
+.success-banner {
+  background-color: #def7e4;
+  /* color: #4aa15e; */
+  border: 1px solid #40cb60;
+}
+/* Error Banner */
+.error-banner {
+  background-color: #f7e0e2;
+  /* color: #b84c56; */
+  border: 1px solid #d43535;
+}
+.closeAlertBanner{
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  margin-top: -1px;
+  cursor: pointer;
+}
+.bannerIcon{
+  height: 12px;
+}

@@ -125,7 +125,8 @@ function createActionsDropdown(actions) {
         const clickedListItem = event.target;
 
         // Trigger action
-        console.log(clickedListItem.className + " event triggered");
+        console.log();
+        displayBanner(clickedListItem.className + " action triggered", "error")
 
         // Close the menu
         dropdownMenu.classList.remove('show');
@@ -318,4 +319,31 @@ function getIntelixReputationWidget(score){
     return reputationScoreWidget;
 }
 
+function displayBanner(message, type = "success") {
+    const banner = createElement("div", "banner");
+
+    // Close Alert Button
+    const closeAlert = createElement("div", "closeAlertBanner");
+    closeAlert.innerHTML = "✕";
+    closeAlert.addEventListener("click", ()=>banner.remove());
+
+    if (type === "success") {
+      banner.classList.add("success-banner");
+      const successIcon = createElement("img", "successIcon bannerIcon");
+      successIcon.setAttribute("src", "/app/images/success_icon.svg");
+      banner.appendChild(successIcon);
+    } else if (type === "error") {
+      banner.classList.add("error-banner");
+      const errorIcon = createElement("img", "errorIcon bannerIcon");
+      errorIcon.setAttribute("src", "/app/images/error_icon.svg");
+      banner.appendChild(errorIcon);
+    }
+    banner.appendChild(createElement("span", "", message));
+    document.querySelector(".alertBannerContainer").appendChild(banner);
+    banner.appendChild(closeAlert);
+    setTimeout(() => {
+      banner.remove();
+    }, 3000);
+}
+  
 setData();
