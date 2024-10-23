@@ -54,20 +54,16 @@ function createElement(tag, className = '', textContent = '') {
 function createBlockActionButton(blockActionParams){
     const blockButton = createElement('button', 'actions-button block-button', 'Block');
     blockButton.addEventListener('click', (e)=>{
-        // Make a block request and log response to console
         fetch(`/blockItem/${blockActionParams.fileName}/${blockActionParams.path}/${blockActionParams.sha256}`)
         .then(response=>response.json())
         .then((data)=>{
             if(data.error){
-                console.error(data.error + ": " + data.message);
+                displayBanner(data.error + ": " + data.message, "error");
             }
             else if(data.id){
-                console.info("Item added to blocked items: " + data.id);
+                displayBanner("Item added to blocked items");
             }
         })
-
-        
-        console.log("Block action triggered for application: ", blockActionParams);
     })
     return blockButton;
 }
