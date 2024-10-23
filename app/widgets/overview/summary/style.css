@@ -1,7 +1,7 @@
 .summary-widget-container {
     display: grid;
     height: 100%;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     row-gap: 16px;
     column-gap: 30px;
 }

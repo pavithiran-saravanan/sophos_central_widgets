@@ -77,6 +77,7 @@ portPromise.then((port) => {
     res.redirect("/app");
   });
 
+
   expressApp.use("/endpoints", endpointRouter);
   expressApp.use("/alerts", alertRouter);
   expressApp.use("/events", eventRouter);
