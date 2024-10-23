@@ -2,6 +2,7 @@
 Copyright (c) 2017, ZOHO CORPORATION
 License: MIT
 */
+require("dotenv").config();
 const portfinder = require("portfinder");
 var fs = require("fs");
 var path = require("path");
@@ -17,8 +18,6 @@ const endpointRouter = require("./js/sophosAPI/endpointAPI");
 const alertRouter = require("./js/sophosAPI/alertsAPI");
 const eventRouter = require("./js/sophosAPI/eventsAPI");
 const detectionRouter = require("./js/sophosAPI/detectionAPI");
-const APProtectionRouter = require("./js/sophosAPI/AAProtectionAPI");
-const scanEndpointRouter = require("./js/sophosAPI/scanEndpointAPI");
 const healthCheckRouter = require("./js/sophosAPI/healthCheckAPI");
 const commonRouter = require("./js/sophosAPI/commonAPI");
 
@@ -82,8 +81,6 @@ portPromise.then((port) => {
   expressApp.use("/alerts", alertRouter);
   expressApp.use("/events", eventRouter);
   expressApp.use("/detections", detectionRouter);
-  expressApp.use("/adaptive-attack-protection", APProtectionRouter);
-  expressApp.use("/scans", scanEndpointRouter);
   expressApp.use("/health-check", healthCheckRouter);
   expressApp.use("/common", commonRouter);
 

@@ -1,6 +1,7 @@
 async function setData() {
   try {
     let result = {};
+    let data = {};
     do {
       const response = await fetch("/detections/status");
       if (!response.ok)

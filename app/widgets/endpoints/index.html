@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="style.css" />
+
+    <script type="module" src="script.js" defer></script>
+    <script type="module" src="./endpointsStatus/script.js" defer></script>
+    <script
+      type="module"
+      src="./endpointsProtectionStatus/script.js"
+      defer
+    ></script>
+    <script type="module" src="./endpointsByHealth/script.js" defer></script>
+    <script type="module" src="./policyLockStatus/script.js" defer></script>
+    <script
+      type="module"
+      src="./tamperProtectionStatus/script.js"
+      defer
+    ></script>
+    <script type="module" src="./snoozedFeatures/script.js" defer></script>
+    <script
+      type="module"
+      src="./policyNotOnRecommended/script.js"
+      defer
+    ></script>
+    <script type="module" src="./topInfectedEndpoints/script.js" defer></script>
+
+    <script src="/app/js/jquery-min.js"></script>
+    <script src="/app/js/ZSDK.js"></script>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+
+    <title>Incident Workbench</title>
+  </head>
+  <body>
+    <header></header>
+    <div class="widget-container">
+      <div class="endpoint-status widget" id="endpointsStatusChart"></div>
+      <div
+        class="endpoint-protection-status widget"
+        id="endpointsProtectionStatus"
+      ></div>
+      <div class="endpoints-by-health widget" id="endpointsByHealth"></div>
+      <div class="policy-lock-status widget" id="policyLockStatus"></div>
+      <div
+        class="tamper-protection-status widget"
+        id="tamperProtectionStatus"
+      ></div>
+      <div class="snoozed-feature widget" id="snoozedFeatures"></div>
+      <div
+        class="top-infected-endpoints widget"
+        id="topInfectedEndpoints"
+      ></div>
+      <div
+        class="policy-not-on-recommended widget"
+        id="policyNotOnRecommended"
+      ></div>
+    </div>
+  </body>
+</html>

@@ -1,240 +1,76 @@
 var express = require("express");
-const { authProp, Authenticate } = require("./Auth");
+const { authProp, Authenticate } = require("./auth");
+const {
+  getRequest,
+  patchRequest,
+  deleteRequest,
+  postRequest,
+} = require("../helper/request");
 var router = express.Router();
 
 router.get("/", function (req, res) {
-  try {
-    const data = getEndpoints();
-    console.log("data ", data);
-    res.send(data);
-  } catch (err) {
-    res.json({ error: "something not correct" });
-  }
-});
-
-router.get("/:endpointID", async function (req, res) {
-  try {
-    const id = req.params.endpointID;
-    const data = await getEndpointDetails(id);
-    // console.log("data ", data);
-    res.send(data);
-  } catch (err) {
-    console.log(err);
-    res.json({ error: "something not correct" });
-  }
-});
-
-router.delete("/", async function (req, res) {
-  try {
-    const { id } = req.query;
-    const data = await deleteEndpoint(id);
-    // console.log("data ", data);
-    res.send(data);
-  } catch (err) {
-    console.log(err);
-    res.json({ error: "something not correct" });
-  }
+  const URL = `https://api-${authProp.dataRegion}.central.sophos.com/endpoint/v1/endpoints`;
+  getRequest(URL, res);
 });
 
 router.get("/isolate", async (req, res) => {
-  try {
-    const { id } = req.query;
-    const data = await getEndpointIsolation(id);
-    // console.log("data ", data);
-    res.send(data);
-  } catch (err) {
-    console.log(err);
-    res.json({ error: "something not correct" });
-  }
+  const { id } = req.query;
+  const URL = `https://api-${authProp.dataRegion}.central.sophos.com/endpoint/v1/endpoints/${id}/isolation`;
+
+  getRequest(URL, res);
 });
 
 router.patch("/isolate", async (req, res) => {
-  try {
-    const { id } = req.body;
-    const data = await isolateEndpoint(id);
-    // console.log("data ", data);
-    res.send(data);
-  } catch (err) {
-    console.log(err);
-    res.json({ error: "something not correct" });
-  }
+  const { id } = req.body;
+  const URL = `https://api-${authProp.dataRegion}.central.sophos.com/endpoint/v1/endpoints/${id}/isolation`;
+  const reqBody = {
+    enabled: true,
+    comment: "Isolate - Log360 Cloud",
+  };
+  patchRequest(URL, res, reqBody);
 });
 
 router.get("/applications", async (req, res) => {
-  try {
-    const data = await isolateEndpoint(id);
-    // console.log("data ", data);
-    res.send(data);
-  } catch (err) {
-    console.log(err);
-    res.json({ error: "something not correct" });
-  }
+  const URL = `https://api-${authProp.dataRegion}.central.sophos.com/endpoint/v1/settings/exploit-mitigation/applications?pageTotal=true`;
+  getRequest(URL, res);
 });
 
-async function getEndpoints() {
-  const res = await fetch(
-    `https://api-${authProp.dataRegion}.central.sophos.com/endpoint/v1/endpoints`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${authProp.access_token}`,
-        "X-Tenant-ID": authProp.tenantID,
-      },
-    }
-  ).then(async (response) => {
-    const data = await response.json();
-    // console.log("response Data : ", data);
-    if (response.status === 401) {
-      await Authenticate();
-      console.log("access _key", authProp.access_token);
-    }
-    if (!response.ok) {
-      throw new Error("Network response was not ok " + response.statusText);
-    }
+router.post("/scan", async (req, res) => {
+  const { endpointID } = req.body;
+  const URL = `https://api-${authProp.dataRegion}.central.sophos.com/endpoint/v1/endpoints/${endpointID}/scans`;
+  postRequest(URL, res);
+});
 
-    return data;
-  });
-  return res;
-}
+router.get("/:endpointID", async function (req, res) {
+  const endpointID = req.params.endpointID;
+  if (!endpointID) {
+    res.status(400).send("Invalid Request");
+  }
 
-async function getEndpointDetails(endpointID) {
-  const res = await fetch(
-    `https://api-${authProp.dataRegion}.central.sophos.com/endpoint/v1/endpoints/${endpointID}`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${authProp.access_token}`,
-        "X-Tenant-ID": authProp.tenantID,
-      },
-    }
-  ).then(async (response) => {
-    const data = await response.json();
-    // console.log("response Data : ", data);
-    if (response.status === 401) {
-      await Authenticate();
-      console.log("new access_token", authProp.access_token);
-    }
-    if (!response.ok) {
-      throw new Error("Network response was not ok " + response.statusText);
-    }
-    return data;
-  });
-  return res;
-}
+  console.log(endpointID, " endpoint ID ");
+  const URL = `https://api-${authProp.dataRegion}.central.sophos.com/endpoint/v1/endpoints/${endpointID}`;
+  getRequest(URL, res);
+});
 
-async function deleteEndpoint(endpointID) {
-  const res = await fetch(
-    `https://api-${authProp.dataRegion}.central.sophos.com/endpoint/v1/endpoints/${endpointID}`,
-    {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${authProp.access_token}`,
-        "X-Tenant-ID": authProp.tenantID,
-        Accept: "application/json",
-      },
-    }
-  ).then(async (res) => {
-    const data = await res.json();
-    // console.log("response data", data);
-    if (res.status === 401) {
-      await Authenticate();
-      console.log("new access_token", authProp.access_token);
-      deleteEndpoint(endpointID);
-    }
-    if (!res.ok) {
-      throw new Error("Network response was not ok " + res.statusText);
-    }
-    data.response = "success";
-    return data;
-  });
-  return res;
-}
+router.delete("/", async function (req, res) {
+  const { id } = req.query;
+  const URL = `https://api-${authProp.dataRegion}.central.sophos.com/endpoint/v1/endpoints/${id}`;
 
-async function getEndpointIsolation(endpointID) {
-  const res = await fetch(
-    `https://api-${authProp.dataRegion}.central.sophos.com/endpoint/v1/endpoints/${endpointID}/isolation`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${authProp.access_token}`,
-        "X-Tenant-ID": authProp.tenantID,
-        Accept: "application/json",
-      },
-    }
-  ).then(async (res) => {
-    const data = await res.json();
-    // console.log("response data", data);
-    if (res.status === 401) {
-      await Authenticate();
-      console.log("new access_token", authProp.access_token);
-      getEndpointIsolation(endpointID);
-    }
-    if (!res.ok) {
-      throw new Error("Network response was not ok " + res.statusText);
-    }
-    data.response = "success";
-    return data;
-  });
-  return res;
-}
+  deleteRequest(URL, res);
+});
 
-async function isolateEndpoint(endpointID) {
-  const res = await fetch(
-    `https://api-${authProp.dataRegion}.central.sophos.com/endpoint/v1/endpoints/${endpointID}/isolation`,
-    {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${authProp.access_token}`,
-        "X-Tenant-ID": authProp.tenantID,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        enabled: true,
-        comment: "Isolate - Log360 Cloud",
-      }),
-    }
-  ).then(async (res) => {
-    const data = await res.json();
-    // console.log("response data", data);
-    if (res.status === 401) {
-      await Authenticate();
-      console.log("new access_token", authProp.access_token);
-      isolateEndpoint(endpointID);
-    }
-    if (!res.ok) {
-      throw new Error("Network response was not ok " + res.statusText);
-    }
-    data.response = "success";
-    return data;
-  });
-  return res;
-}
+router.post("/adaptive-attack-protection", async (req, res) => {
+  const { endpointID } = req.body;
+  if (!endpointID) {
+    res.status(400).send("endpoint ID is empty");
+  }
+  const URl = `https://api-${authProp.dataRegion}.central.sophos.com/endpoint/v1/endpoints/${endpointID}/adaptive-attack-protection`;
+  const reqBody = {
+    enabled: true,
+    expiresAfter: "P7D", //Duration (in ISO 8601 format)
+  };
 
-async function getApplications() {
-  const res = await fetch(
-    `https://api-${dataRegion}.central.sophos.com/endpoint/v1/settings/exploit-mitigation/applications?pageTotal=true`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${authProp.access_token}`,
-        "X-Tenant-ID": authProp.tenantID,
-      },
-    }
-  ).then(async (response) => {
-    const data = await response.json();
-    // console.log("response Data : ", data);
-    if (response.status === 401) {
-      await Authenticate();
-      console.log("access _key", authProp.access_token);
-    }
-    if (!response.ok) {
-      throw new Error("Network response was not ok " + response.statusText);
-    }
-
-    return data;
-  });
-  return res;
-}
+  postRequest(URl, res, reqBody);
+});
 
 module.exports = router;

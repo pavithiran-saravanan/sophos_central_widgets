@@ -582,7 +582,7 @@ async function scanEndpoint() {
 async function updateAAP() {
   const endpointID = "6f56511d-f3f9-4c39-9b7b-113cc6a638fd";
 
-  await fetch("/adaptive-attack-protection", {
+  await fetch("endpoints/adaptive-attack-protection", {
     method: "POST",
     headers: {
       Accept: "application/json",

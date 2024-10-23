@@ -1,50 +1,15 @@
 var express = require("express");
-const { authProp, Authenticate } = require("./Auth");
+const { getRequest } = require("../helper/request");
+const { authProp, Authenticate } = require("./auth");
 var router = express.Router();
 
 router.get("/", async (req, res) => {
-  try {
-    res.status(400).send("service not mentioned");
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "something not correct" });
-  }
+  res.status(400).send("service not mentioned");
 });
 
 router.get("/users", async (req, res) => {
-  try {
-    const data = await getUsers();
-    console.log("data ", data);
-    res.send(data);
-  } catch (err) {
-    console.log(err);
-    res.json({ error: "something not correct" });
-  }
+  const URL = `https://api-${authProp.dataRegion}.central.sophos.com/common/v1/directory/users`;
+  getRequest(URL, res);
 });
-
-async function getUsers() {
-  const res = await fetch(
-    `https://api-${dataRegion}.central.sophos.com/common/v1/directory/users`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${authProp.access_token}`,
-        "X-Tenant-ID": authProp.tenantID,
-      },
-    }
-  ).then(async (res) => {
-    const data = await res.json();
-    // console.log("response data", data);
-    if (res.status === 401) {
-      await Authenticate();
-      console.log("new access_token", authProp.access_token);
-    }
-    if (!res.ok) {
-      throw new Error("Network response was not ok " + response.statusText);
-    }
-    return data;
-  });
-  return res;
-}
 
 module.exports = router;

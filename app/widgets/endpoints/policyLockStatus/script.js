@@ -24,7 +24,7 @@ async function setData() {
       chart: {
         type: "column",
       },
-      title: { text: undefined },
+      title: { text: "Policy Lock Status", align: "left" },
       xAxis: {
         categories: ["Computer", "Server"],
       },

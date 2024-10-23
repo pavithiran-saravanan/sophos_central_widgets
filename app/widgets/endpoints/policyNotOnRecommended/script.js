@@ -9,34 +9,44 @@ async function setData() {
     Highcharts.chart("policyNotOnRecommended", {
       chart: {
         type: "pie",
+        custom: {},
         events: {
           render() {
-            const series = this.series[0];
+            const chart = this,
+              series = chart.series[0];
+            let customLabel = chart.options.chart.custom.label;
             const total = series.yData.reduce((sum, value) => sum + value, 0);
 
-            this.customLabel = this.renderer
-              .label(
-                `<strong>${total}</strong></br>
-                                    <small style="font-size: 0.8em; color: #888;">Total</small>
-                                `
-              )
-              .css({
-                color: "#000",
-                fontSize: `${series.center[2] / 12}px`,
-                textAnchor: "middle",
-              })
-              .add();
+            if (!customLabel) {
+              customLabel = chart.options.chart.custom.label = chart.renderer
+                .label(
+                  `<strong>${total}</strong></br><small style="font-size: 0.8em; color: #888;">Total</small>`
+                )
+                .css({
+                  color: "#000",
+                  textAnchor: "middle",
+                })
+                .add();
+            }
 
-            const x = series.center[0] + this.plotLeft;
-            const y =
-              series.center[1] +
-              this.plotTop -
-              this.customLabel.attr("height") / 2 / 2;
-            this.customLabel.attr({ x, y });
+            const x = series.center[0] + chart.plotLeft,
+              y =
+                series.center[1] +
+                chart.plotTop -
+                customLabel.attr("height") / 2;
+
+            customLabel.attr({
+              x,
+              y,
+            });
+            // Set font size based on chart diameter
+            customLabel.css({
+              fontSize: `${series.center[2] / 12}px`,
+            });
           },
         },
       },
-      title: { text: undefined },
+      title: { text: "Policy Not On Recommanded", align: "left" },
       legend: {
         align: "right",
         verticalAlign: "middle",

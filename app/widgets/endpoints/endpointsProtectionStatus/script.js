@@ -10,7 +10,7 @@ async function setData() {
       chart: {
         type: "column",
       },
-      title: { text: undefined },
+      title: { text: "Endpoint Protection Status", align: "left" },
       xAxis: {
         categories: ["Computer", "Server"],
       },

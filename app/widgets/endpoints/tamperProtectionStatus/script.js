@@ -10,7 +10,7 @@ async function setData() {
       chart: {
         type: "column",
       },
-      title: { text: undefined },
+      title: { text: "Tamper Protection Status", align: "left" },
       xAxis: {
         categories: ["Computer", "Server"],
       },
