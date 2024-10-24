@@ -326,9 +326,12 @@ async function blockItem({fileName, path, sha256}) {
       if (response.status === 401) {
         Authenticate();
       }
-      // if (!response.ok) {
-      //   throw new Error("Network response was not ok " + response.statusText);
-      // }
+      if(response.ok){
+        data.response = "success";
+      }
+      else{
+        console.error("Response: ", response);
+      }
       return data;
     });
     return res;
@@ -357,10 +360,12 @@ async function getIsolation(endpointID) {
       console.log("new access_token", access_token);
       getIsolation(endpointID);
     }
-    if (!res.ok) {
-      throw new Error("Network response was not ok " + res.statusText);
+    if(res.ok){
+      data.response = "success";
     }
-    data.response = "success";
+    else{
+      console.error("Response: ", res);
+    }
     return data;
   });
   return res;
@@ -397,10 +402,12 @@ async function isolateEndpoint(endpointID) {
         console.log("new access_token", access_token);
         isolateEndpoint(endpointID);
       }
-      if (!res.ok) {
-        throw new Error("Network response was not ok " + res.statusText);
+      if(res.ok){
+        data.response = "success";
       }
-      data.response = "success";
+      else{
+        console.error("Response: ", res);
+      }
       return data;
     });
     return res;
@@ -437,10 +444,12 @@ async function deleteEndpoint(endpointID) {
         console.log("new access_token", access_token);
         deleteEndpoint(endpointID);
       }
-      if (!res.ok) {
-        throw new Error("Network response was not ok " + res.statusText);
+      if(res.ok){
+        data.response = "success";
       }
-      data.response = "success";
+      else{
+        console.error("Response: ", res);
+      }
       return data;
     });
     return res;
@@ -481,10 +490,12 @@ async function scanEndpoint(endpointID) {
         await Authenticate();
         console.log("new access_token", access_token);
       }
-      if (!res.ok) {
-        throw new Error("Network response was not ok " + res.statusText);
+      if(res.ok){
+        data.response = "success";
       }
-      data.response = "success";
+      else{
+        console.error("Response: ", res);
+      }
       return data;
     });
     return res;
@@ -525,10 +536,12 @@ async function updateAAP(endpointID) {
         await Authenticate();
         console.log("new access_token", access_token);
       }
-      if (!res.ok) {
-        throw new Error("Network response was not ok " + res.statusText);
+      if(res.ok){
+        data.response = "success";
       }
-      data.response = "success";
+      else{
+        console.error("Response: ", res);
+      }
       return data;
     });
   

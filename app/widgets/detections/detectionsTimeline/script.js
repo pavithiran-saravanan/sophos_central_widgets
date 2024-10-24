@@ -60,18 +60,25 @@ function createBlockActionButton(blockActionParams){
     blockButton.appendChild(loadingElement);
     blockButton.addEventListener('click', (e)=>{
         // Todo: Show loading icon
-        blockButton.classList.toggle('loading');
+        blockButton.classList.add('loading');
         fetch(`/blockItem/${blockActionParams.fileName}/${blockActionParams.path}/${blockActionParams.sha256}`)
-        .then(response=>response.json())
-        .then((data)=>{
+        .then(async (response)=>{
+            const data = await response.json();
             console.log("Block Item: ", data);
-            // Todo: Remove loading icon
-            blockButton.classList.toggle('loading');
-            if(data.error){
-                displayBanner("Item Already Blocked", "error");
+            blockButton.classList.remove('loading');
+            if(response.ok){
+                if(data.response === "success"){
+                    displayBanner("Item Blocked Successfully");
+                }
+                else if(data.error){
+                    displayBanner(data.message, "error");
+                }
+                else{
+                    displayBanner("Error", "error");
+                }
             }
-            else if(data.id){
-                displayBanner("Item Blocked Successfully");
+            else{
+                displayBanner("Error", "error");
             }
         })
     })
@@ -136,25 +143,33 @@ function createActionsDropdown(deviceId) {
 
         // Isolate
         if(clickedListItem.classList.contains("Isolate")){
-            isolateEndpoint(deviceId);
+            actionsButton.classList.add('loading');
+            isolateEndpoint(deviceId).then(()=>{
+                actionsButton.classList.remove('loading')
+            });
         }
 
         // Delete
         if(clickedListItem.classList.contains("Delete")){
-            displayBanner("TODO");
-            // deleteEndpoint(deviceId);
+            actionsButton.classList.add('loading');
+            deleteEndpoint(deviceId).then(()=>{
+                actionsButton.classList.remove('loading')
+            });
         }
 
         // Scan
         if(clickedListItem.classList.contains("Scan")){
-            scanEndpoint(deviceId);
+            actionsButton.classList.add('loading');
+            scanEndpoint(deviceId).then(()=>{
+                actionsButton.classList.remove('loading')
+            });
         }
 
         // AAP
         if(clickedListItem.classList.contains("Update")){
-            actionsButton.classList.toggle('loading');
+            actionsButton.classList.add('loading');
             updateAAP(deviceId).then(()=>{
-                actionsButton.classList.toggle('loading')
+                actionsButton.classList.remove('loading')
             });
         }
 
