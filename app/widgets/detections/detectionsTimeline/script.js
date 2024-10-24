@@ -39,7 +39,10 @@ function getTitleComponent(title, description, severity="high"){
     descriptionElement.classList.add('detectionDescription');
     descriptionElement.innerText = description;
 
-    titleContainer.append(titleElement, descriptionElement);
+    const dropdownIcon = createElement("img", "dropdownIcon");
+    dropdownIcon.setAttribute("src", "/app/images/arrow_icon.svg");
+
+    titleContainer.append(titleElement, descriptionElement, dropdownIcon);
     return titleContainer;
 }
 
@@ -53,13 +56,17 @@ function createElement(tag, className = '', textContent = '') {
 
 function createBlockActionButton(blockActionParams){
     const blockButton = createElement('button', 'actions-button block-button', 'Block');
+    const loadingElement = createElement('div', 'loadingElement', '...');
+    blockButton.appendChild(loadingElement);
     blockButton.addEventListener('click', (e)=>{
         // Todo: Show loading icon
+        blockButton.classList.toggle('loading');
         fetch(`/blockItem/${blockActionParams.fileName}/${blockActionParams.path}/${blockActionParams.sha256}`)
         .then(response=>response.json())
         .then((data)=>{
             console.log("Block Item: ", data);
             // Todo: Remove loading icon
+            blockButton.classList.toggle('loading');
             if(data.error){
                 displayBanner("Item Already Blocked", "error");
             }
@@ -102,7 +109,12 @@ function createActionsDropdown(deviceId) {
     const dropdownWrapper = createElement('div', 'actions-dropdown');
     
     // Button for dropdown
-    const actionsButton = createElement('button', 'actions-button', 'Actions ▼');
+    const actionsButton = createElement('button', 'actions-button', "Actions");
+    const dropDownIcon = createElement('img', 'actionsDropdownIcon');
+    dropDownIcon.setAttribute("src", "/app/images/arrow_icon_solid.svg");
+    actionsButton.appendChild(dropDownIcon);
+    // Add loading element
+    actionsButton.appendChild(createElement('div', 'loadingElement', '...'));
     dropdownWrapper.appendChild(actionsButton);
 
     // Dropdown menu
@@ -140,7 +152,10 @@ function createActionsDropdown(deviceId) {
 
         // AAP
         if(clickedListItem.classList.contains("Update")){
-            updateAAP(deviceId);
+            actionsButton.classList.toggle('loading');
+            updateAAP(deviceId).then(()=>{
+                actionsButton.classList.toggle('loading')
+            });
         }
 
         dropdownMenu.classList.remove('show');
@@ -227,9 +242,10 @@ function createDetectionContainer(date, time, title, desc, severity, detectionDa
     document.querySelector('#timeline').append(detectionItem, getGapElement());
 
     // Hide and show Item details
-    detectionItem.querySelector('.titleContainer').addEventListener('click', () => {
+    detectionItem.querySelector('.titleContainer').addEventListener('click', (e) => {
+        detectionItem.classList.toggle('open');
         const details = detectionItem.querySelector('.detection-container');
-        details.classList.toggle('hide')
+        details.classList.toggle('hide');
     });
 }
 
