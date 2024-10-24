@@ -338,7 +338,206 @@ async function blockItem({fileName, path, sha256}) {
   }
 }
 
-async function unblockItem() {
+async function getIsolation(endpointID) {
+  const res = await fetch(
+    `https://api-${dataRegion}.central.sophos.com/endpoint/v1/endpoints/${endpointID}/isolation`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+        "X-Tenant-ID": tenantID,
+        Accept: "application/json",
+      },
+    }
+  ).then(async (res) => {
+    const data = await res.json();
+    // console.log("response data", data);
+    if (res.status === 401) {
+      await Authenticate();
+      console.log("new access_token", access_token);
+      getIsolation(endpointID);
+    }
+    if (!res.ok) {
+      throw new Error("Network response was not ok " + res.statusText);
+    }
+    data.response = "success";
+    return data;
+  });
+  return res;
+}
+
+async function isolateEndpoint(endpointID) {
+  if (!access_token) {
+    Authenticate();
+  }
+  if (!tenantID) {
+    whoAmI();
+  }
+  try{
+    const res = await fetch(
+      `https://api-${dataRegion}.central.sophos.com/endpoint/v1/endpoints/${endpointID}/isolation`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+          "X-Tenant-ID": tenantID,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          enabled: true,
+          comment: "Isolate - Log360 Cloud",
+        }),
+      }
+    ).then(async (res) => {
+      const data = await res.json();
+      // console.log("response data", data);
+      if (res.status === 401) {
+        await Authenticate();
+        console.log("new access_token", access_token);
+        isolateEndpoint(endpointID);
+      }
+      if (!res.ok) {
+        throw new Error("Network response was not ok " + res.statusText);
+      }
+      data.response = "success";
+      return data;
+    });
+    return res;
+  }
+  catch(err){
+    console.error(err);
+    return err;
+  }
+}
+
+async function deleteEndpoint(endpointID) {
+  if (!access_token) {
+    Authenticate();
+  }
+  if (!tenantID) {
+    whoAmI();
+  }
+  try{
+    const res = await fetch(
+      `https://api-${dataRegion}.central.sophos.com/endpoint/v1/endpoints/${endpointID}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+          "X-Tenant-ID": tenantID,
+          Accept: "application/json",
+        },
+      }
+    ).then(async (res) => {
+      const data = await res.json();
+      // console.log("response data", data);
+      if (res.status === 401) {
+        await Authenticate();
+        console.log("new access_token", access_token);
+        deleteEndpoint(endpointID);
+      }
+      if (!res.ok) {
+        throw new Error("Network response was not ok " + res.statusText);
+      }
+      data.response = "success";
+      return data;
+    });
+    return res;
+  }
+  catch(err){
+    console.error(err);
+    return err;
+  }
+}
+
+async function scanEndpoint(endpointID) {
+  if (!access_token) {
+    Authenticate();
+  }
+  if (!tenantID) {
+    whoAmI();
+  }
+  try{
+    console.log(
+      `https://api-${dataRegion}.central.sophos.com/endpoint/v1/endpoints/${endpointID}/scans`
+    );
+    const res = await fetch(
+      `https://api-${dataRegion}.central.sophos.com/endpoint/v1/endpoints/${endpointID}/scans`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+          "X-Tenant-ID": tenantID,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      }
+    ).then(async (res) => {
+      const data = await res.json();
+      console.log("response data", data);
+      if (res.status === 401) {
+        await Authenticate();
+        console.log("new access_token", access_token);
+      }
+      if (!res.ok) {
+        throw new Error("Network response was not ok " + res.statusText);
+      }
+      data.response = "success";
+      return data;
+    });
+    return res;
+  }
+  catch(err){
+    console.error(err);
+    return err;
+  }
+}
+
+async function updateAAP(endpointID) {
+  if (!access_token) {
+    Authenticate();
+  }
+  if (!tenantID) {
+    whoAmI();
+  }
+  try{
+    const res = await fetch(
+      `https://api-${dataRegion}.central.sophos.com/endpoint/v1/endpoints/${endpointID}/adaptive-attack-protection`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+          "X-Tenant-ID": tenantID,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          enabled: true,
+          expiresAfter: "P7D", //Duration (in ISO 8601 format) after which the endpoint will leave Adaptive Attack Protection.
+        }),
+      }
+    ).then(async (res) => {
+      const data = await res.json();
+      console.log("response data", data);
+      if (res.status === 401) {
+        await Authenticate();
+        console.log("new access_token", access_token);
+      }
+      if (!res.ok) {
+        throw new Error("Network response was not ok " + res.statusText);
+      }
+      data.response = "success";
+      return data;
+    });
+  
+    return res;
+  }
+  catch(err){
+    console.error(err);
+    return err;
+  }
 }
 
 async function Authenticate() {
@@ -408,5 +607,9 @@ module.exports = {
   getDetections,
   getApplications,
   blockItem,
-  unblockItem
+  getIsolation,
+  isolateEndpoint,
+  deleteEndpoint,
+  scanEndpoint,
+  updateAAP
 };

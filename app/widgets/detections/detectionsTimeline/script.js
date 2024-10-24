@@ -54,9 +54,11 @@ function createElement(tag, className = '', textContent = '') {
 function createBlockActionButton(blockActionParams){
     const blockButton = createElement('button', 'actions-button block-button', 'Block');
     blockButton.addEventListener('click', (e)=>{
+        // Todo: Show loading icon
         fetch(`/blockItem/${blockActionParams.fileName}/${blockActionParams.path}/${blockActionParams.sha256}`)
         .then(response=>response.json())
         .then((data)=>{
+            // Todo: Remove loading icon
             if(data.error){
                 displayBanner(data.error + ": " + data.message, "error");
             }
@@ -81,7 +83,7 @@ function createDetailsSection(data, showActions, showBlock, blockActionParams) {
         
         // Add actions dropdown only beside the Device Entity in Detection tab
         if (showActions && key === "Device Entity") {
-            item.appendChild(createActionsDropdown(actions));
+            item.appendChild(createActionsDropdown(data["Device Id"]));
         }
 
         if (showBlock && key === "sha256") {
@@ -95,7 +97,7 @@ function createDetailsSection(data, showActions, showBlock, blockActionParams) {
 }
 
 // Function to construct the Actions dropdown menu
-function createActionsDropdown(actions) {
+function createActionsDropdown(deviceId) {
     const dropdownWrapper = createElement('div', 'actions-dropdown');
     
     // Button for dropdown
@@ -117,14 +119,29 @@ function createActionsDropdown(actions) {
 
     // Handle dropdown item selection
     dropdownMenu.addEventListener('click', (event)=>{
-        // Record selection
         const clickedListItem = event.target;
 
-        // Trigger action
-        console.log();
-        displayBanner(clickedListItem.className + " action triggered", "error")
+        // Isolate
+        if(clickedListItem.classList.contains("Isolate")){
+            isolateEndpoint(deviceId);
+        }
 
-        // Close the menu
+        // Delete
+        if(clickedListItem.classList.contains("Delete")){
+            displayBanner("TODO");
+            // deleteEndpoint(deviceId);
+        }
+
+        // Scan
+        if(clickedListItem.classList.contains("Scan")){
+            scanEndpoint(deviceId);
+        }
+
+        // AAP
+        if(clickedListItem.classList.contains("Update")){
+            updateAAP(deviceId);
+        }
+
         dropdownMenu.classList.remove('show');
     })
 

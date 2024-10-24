@@ -21,7 +21,11 @@ const {
   getUsers,
   getApplications,
   blockItem,
-  unblockItem
+  getIsolation,
+  isolateEndpoint,
+  deleteEndpoint,
+  scanEndpoint,
+  updateAAP
 } = require("./js/sophosAPI");
 
 process.env.PWD = process.env.PWD || process.cwd();
@@ -119,7 +123,33 @@ portPromise.then((port) => {
     res.send(await blockItem(req.params));
   });
 
-  expressApp.get("/unblockItem/:blockedItemId", async (req, res) => {
+  expressApp.get("/getIsolation/:id", async (req, res)=>{
+    const {id} = req.params;
+    res.send(await getIsolation(id));
+  })
+
+  // Isolate Endpoint
+  expressApp.get("/isolateEndpoint/:id", async (req, res) => {
+    const {id} = req.params;
+    res.send(await isolateEndpoint(id));
+  });
+
+  // Delete Endpoint
+  expressApp.get("/deleteEndpoint/:id", async (req, res) => {
+    const {id} = req.params;
+    res.send(await deleteEndpoint(id));
+  });
+
+  // Scan Endpoint
+  expressApp.get("/scanEndpoint/:id", async (req, res) => {
+    const {id} = req.params;
+    res.send(await scanEndpoint(id));
+  });
+
+  // Update AAP
+  expressApp.get("/updateAAP/:id", async (req, res) => {
+    const {id} = req.params;
+    res.send(await updateAAP(id));
   });
 
   var options = {
