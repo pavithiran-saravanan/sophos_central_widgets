@@ -58,12 +58,13 @@ function createBlockActionButton(blockActionParams){
         fetch(`/blockItem/${blockActionParams.fileName}/${blockActionParams.path}/${blockActionParams.sha256}`)
         .then(response=>response.json())
         .then((data)=>{
+            console.log("Block Item: ", data);
             // Todo: Remove loading icon
             if(data.error){
-                displayBanner(data.error + ": " + data.message, "error");
+                displayBanner("Item Already Blocked", "error");
             }
             else if(data.id){
-                displayBanner("Item added to blocked items");
+                displayBanner("Item Blocked Successfully");
             }
         })
     })
