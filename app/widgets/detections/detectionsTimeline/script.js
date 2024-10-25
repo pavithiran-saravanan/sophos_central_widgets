@@ -1,4 +1,5 @@
 const actions = ["Isolate", "Delete", "Scan", "Update Adaptive Attack Protection"];
+const detectionsData = [];
 
 // Helper function to obtain severity class for severity number
 function getSeverityClass(severity){
@@ -333,10 +334,9 @@ async function setData(params) {
                 "sha256": detection.rawData.process_sha256
             }
         }
-
-        createDetectionContainer(date, time, title, description, severity, detectionTabData, mitreTabData, geolocationTabData, intelixTabData, blockActionParams);
+        detectionsData.push({date, time, title, description, severity, detectionTabData, mitreTabData, geolocationTabData, intelixTabData, blockActionParams});
     })
-    console.log(detectionsWithIntelix)
+    displayDetectionItems();
 }
 
 function getIntelixReputationWidget(score){
@@ -390,5 +390,44 @@ function displayBanner(message, type = "success") {
       banner.remove();
     }, 3000);
 }
+
+function displayDetectionItems(data = detectionsData){
+    const timeline = document.querySelector('#timeline');
+    timeline.innerHTML = '';
+    console.log("Filtered Data: ", data);
+    data.forEach(({date, time, title, description, severity, detectionTabData, mitreTabData, geolocationTabData, intelixTabData, blockActionParams})=>{
+        createDetectionContainer(date, time, title, description, severity, detectionTabData, mitreTabData, geolocationTabData, intelixTabData, blockActionParams);
+    })
+}
+
+function filterDetectionItems(queryString = ""){
+    if(queryString.trim() === ""){
+        displayDetectionItems();
+    }
+    else{
+        const filteredDetectionsData = detectionsData.filter(detectionItem => {
+            return Object.values(detectionItem).some(value => {
+                if (typeof value === 'string') {
+                  return value.toLowerCase().includes(queryString.toLowerCase());
+                } 
+                else if (typeof value === 'object' && value !== null) {
+                    return Object.values(value).some(innerValue => 
+                        typeof innerValue === 'string' && innerValue.toLowerCase().includes(queryString.toLowerCase())
+                    );
+                }
+            });
+        });
+        console.log(filteredDetectionsData);
+        displayDetectionItems(filteredDetectionsData);
+    }
+}
   
+// Implement Search Feature
+(function(){
+    const searchBar = document.querySelector('.searchBar');
+    searchBar.addEventListener('input', (e)=>{
+        const queryString = searchBar.value;
+        filterDetectionItems(queryString);
+    })
+})();
 setData();
