@@ -330,10 +330,10 @@
 }
 
 /* Search Bar Style Reset */
-input[type="search"]::-webkit-search-decoration,
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-results-button,
-input[type="search"]::-webkit-search-results-decoration {
+input::-webkit-search-decoration,
+input::-webkit-search-cancel-button,
+input::-webkit-search-results-button,
+input::-webkit-search-results-decoration {
   -webkit-appearance:none;
 }
 
@@ -365,6 +365,7 @@ input[type="search"]::-webkit-search-results-decoration {
   font-size: 12px;
   border-radius: 4px;
   cursor: pointer;
+  user-select: none;
 }
 .filterIcon{
   width: 15px;
@@ -377,15 +378,107 @@ input[type="search"]::-webkit-search-results-decoration {
   position: absolute;
   top: 50%;
   left: 5px;
-  width: 18px;
+  width: 16px;
   transform: translateY(-50%);
 }
-.searchBar{
+.input{
   outline: none;
   width: 100%;
   border-radius: 4px;
   border: 1px solid lightgray;
+  color: #444; 
+}
+
+.searchBar{
   padding-left: 30px;
   padding: 5px 5px 5px 26px;
   color: #444; 
+  height: 100%;
+}
+
+/* Filter Container */
+.filterContainer{
+  display: flex;
+}
+.appliedFiltersContainer{
+  flex: 1;
+  display: flex;
+  gap: 10px;
+}
+.appliedFilters{
+  display: flex;
+  gap: 15px;
+}
+.appliedFilter{
+  display: flex;
+  gap: 10px;
+  padding: 5px 10px;
+  border: 1px solid lightgray;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+.filterButtonContainer{
+  position: relative;
+}
+.filterMenu{
+  width: 350px;
+  position: absolute;
+  top: 120%;
+  right: 0px;
+  border: 1px solid lightgray;
+  padding: 20px;
+  z-index: 1001;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 28px 28px 28px;
+  row-gap: 12px;
+  column-gap: 5px;
+  background-color: #fff;
+  font-size: 14px;
+  display: none;
+}
+.filterMenu.show{
+  display: grid;
+}
+.filterLabel{
+  grid-column: 1/2;
+  display: grid;
+  align-items: center;
+}
+.valueLabel{
+  grid-column: 1/2;
+  display: grid;
+  align-items: center;
+}
+.filterCategoryDropdown{
+  grid-column: 2/-1;
+}
+.deleteAppliedFilterButton{
+  padding: 0px;
+  border: none;
+  background-color: transparent;
+  display: grid;
+  justify-items: end;
+}
+.searchInputContainer{
+  grid-column: 2/-1;
+  position: relative;
+}
+.applyFilterButton{
+  grid-column: 2/3;
+  background-color: rgb(102, 177, 52);
+  color: white;
+  border: none;
+}
+.cancelFilterButton{
+  grid-column: 3/4;
+  border: none;
+  background-color: #eee
+}
+.clearFiltersButton{
+  background-color: transparent;
+  border: 1px solid lightgray;
+  outline: none;
+  border-radius: 4px;
 }

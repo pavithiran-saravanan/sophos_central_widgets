@@ -26,10 +26,45 @@
     <div class="alertBannerContainer"></div>
     <div class="widgetContainer detectionTimelineContainer">
         <div class="widgetChart timeline-container" id="detectionTimelineWidget">
-          <div class="searchFilterContainer">
+          <div class="filterContainer">
+            <div class="appliedFiltersContainer">
+              <div class="appliedFilters">
+                <div class="appliedFilter">
+                  <span class="appliedFilterValue">Attack: Defense Evasion</span>
+                  <button class="deleteAppliedFilterButton">x</button>
+                </div>
+                <div class="appliedFilter">
+                  <span class="appliedFilterValue">Attack: Defense Evasion</span>
+                  <button class="deleteAppliedFilterButton">x</button>
+                </div>
+              </div>
+              <button class="clearFiltersButton">Clear All</button>
+            </div>
+            <div class="filterButtonContainer">
+              <div class="filterButton">
+                <img src="/app/images/filter_icon.svg" alt="" class="filterIcon">
+                <span>Filters</span>
+              </div>
+              <div class="filterMenu">
+                <div class="filterLabel">Filter</div>
+                <select name="filterCategoryDropdown" id="filterCategoryDropdown" class="filterCategoryDropdown input">
+                  <option value="Attack">Attack</option>
+                  <option value="Name">Name</option>
+                </select>
+                <div class="valueLabel">Value</div>
+                <div class="searchInputContainer">
+                  <img src="/app/images/search_icon.svg" alt="" class="searchIcon">
+                  <input type="search" name="seachBar" class="searchBar input" placeholder="Search">
+                </div>
+                <button class="applyFilterButton">Apply</button>
+                <button class="cancelFilterButton">Cancel</button>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="searchFilterContainer">
             <div class="searchContainer">
               <img src="/app/images/search_icon.svg" alt="" class="searchIcon">
-              <input type="search" name="seachBar" class="searchBar" placeholder="Search">
+              <input type="search" name="seachBar" class="searchBar input" placeholder="Search">
             </div>
             <div class="verticalLineSeparator"></div>
             <div class="filterSection">
@@ -38,7 +73,7 @@
                 <span>Filters</span>
               </div>
             </div>
-          </div>
+          </div> -->
           <div id="timeline">
           </div>
         </div>

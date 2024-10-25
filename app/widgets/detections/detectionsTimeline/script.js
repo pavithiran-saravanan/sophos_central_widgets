@@ -430,4 +430,23 @@ function filterDetectionItems(queryString = ""){
         filterDetectionItems(queryString);
     })
 })();
+
+// Show Hide Filter Menu
+(function(){
+    const filterButton = document.querySelector('.filterButton');
+    filterButton.addEventListener('click', (e)=>{
+        filterButton.parentElement.querySelector('.filterMenu').classList.toggle('show');
+    })
+})();
+
+// Clear Applied Filters
+(function(){
+    const clearFiltersButton = document.querySelector('.clearFiltersButton');
+    clearFiltersButton.addEventListener('click', (e)=>{
+        const appliedFilters = clearFiltersButton.parentElement.querySelector('.appliedFilters');
+        appliedFilters.innerHTML = '';
+        clearFiltersButton.remove();
+    })
+})();
+
 setData();
