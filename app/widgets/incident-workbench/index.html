@@ -5,10 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="../datePicker/style.css" />
 
     <script src="script.js" defer></script>
     <script src="/app/js/jquery-min.js"></script>
     <script src="/app/js/ZSDK.js"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="../datePicker/fwdaterangepicker.js"></script>
+    <script type="module" src="../datePicker/script.js" defer></script>
 
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
@@ -18,7 +23,14 @@
   <body>
     <div class="container">
       <div class="header">
-        <div><h1>Date picker</h1></div>
+        <div class="fw">
+          <div class="input-group calendar-group">
+              <input id="date-range" type="text" class="form-control fw-mw-100p">
+              <span class="input-group-btn input-group-icon-btn">
+                  <button class="btn"><i class="fw-inline-icon fw-icn-calendar"></i></button>
+              </span>
+          </div>
+        </div>
         <div class="flex-container">
           <div class="container">
             <h1 id="scanStatus"></h1>

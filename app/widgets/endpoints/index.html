@@ -5,39 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="../datePicker/style.css" />
 
-    <script type="module" src="script.js" defer></script>
-    <script type="module" src="./endpointsStatus/script.js" defer></script>
-    <script
-      type="module"
-      src="./endpointsProtectionStatus/script.js"
-      defer
-    ></script>
-    <script type="module" src="./endpointsByHealth/script.js" defer></script>
-    <script type="module" src="./policyLockStatus/script.js" defer></script>
-    <script
-      type="module"
-      src="./tamperProtectionStatus/script.js"
-      defer
-    ></script>
-    <script type="module" src="./snoozedFeatures/script.js" defer></script>
-    <script
-      type="module"
-      src="./policyNotOnRecommended/script.js"
-      defer
-    ></script>
     <script type="module" src="./topInfectedEndpoints/script.js" defer></script>
 
     <script src="/app/js/jquery-min.js"></script>
     <script src="/app/js/ZSDK.js"></script>
 
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="../datePicker/fwdaterangepicker.js"></script>
+    <script type="module" src="../datePicker/script.js" defer></script>
+
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/no-data-to-display.js"></script>
+    <script src="script.js"></script>
 
     <title>Incident Workbench</title>
   </head>
   <body>
-    <header></header>
+    <header>
+      <div class="fw">
+        <div class="input-group calendar-group">
+            <input id="date-range" type="text" class="form-control fw-mw-100p">
+            <span class="input-group-btn input-group-icon-btn">
+                <button class="btn"><i class="fw-inline-icon fw-icn-calendar"></i></button>
+            </span>
+        </div>
+      </div>
+    </header>
     <div class="widget-container">
       <div class="endpoint-status widget" id="endpointsStatusChart"></div>
       <div

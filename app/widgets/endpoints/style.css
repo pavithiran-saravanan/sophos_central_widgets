@@ -4,13 +4,24 @@
   font-family: Helvetica, Arial, sans-serif;
 }
 
+header {
+  padding: 20px;
+  position: relative;
+}
+
+header .fw{
+  position: absolute;
+  right: 0;
+  top: 25%;
+}
+
 .widget {
   border: 1px solid #ccc;
   height: 400px;
 }
 
 .widget-container {
-  margin: 20px;
+  /* margin: 20px; */
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* Default three columns */
   gap: 10px; /* Spacing between grid items */
