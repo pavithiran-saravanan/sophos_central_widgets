@@ -18,6 +18,7 @@ async function getRequest(URL, res, reqBody) {
         return getRequest(URL, reqBody);
       }
       if (!res.ok) {
+        console.log(res);
         throw new Error("Network response was not ok " + res.statusText);
       }
       return data;
