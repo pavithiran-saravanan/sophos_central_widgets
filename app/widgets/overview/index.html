@@ -12,12 +12,14 @@
     <link rel="stylesheet" href="threatsOverTime/style.css" />
     <link rel="stylesheet" href="topAlerts/style.css" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="../datePicker/style.css" />
 
     <!-- Common Stylesheet -->
     <link rel="stylesheet" href="/app/css/style.css" />
     <link rel="icon" type="image/x-icon" href="/app/images/favicon.ico" />
 
     <!-- Scripts -->
+    <script src="script.js" defer></script>
     <script type="module" src="score/script.js" defer></script>
     <script type="module" src="summary/script.js" defer></script>
     <script type="module" src="threatActors/script.js" defer></script>
@@ -32,6 +34,9 @@
     <script src="/app/js/jquery-min.js"></script>
     <script src="/app/js/ZSDK.js"></script>
 
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="../datePicker/fwdaterangepicker.js"></script>
+
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
     <script src="https://code.highcharts.com/modules/heatmap.js"></script>
@@ -42,6 +47,15 @@
   </head>
 
   <body>
+    <header>
+      <div class="fw">
+        <div class="input-group calendar-group">
+            <input id="date-range" type="text" class="form-control fw-mw-100p">
+            <span class="input-group-btn input-group-icon-btn">
+                <button class="btn"><i class="fw-inline-icon fw-icn-calendar"></i></button>
+            </span>
+        </div>
+      </header>
     <div class="widgetsParent">
       <!-- Summary -->
       <div class="widgetContainer summaryWidgetContainer">
