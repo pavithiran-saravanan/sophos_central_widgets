@@ -1,5 +1,45 @@
 const actions = ["Isolate", "Delete", "Scan", "Update Adaptive Attack Protection"];
 const detectionsData = [];
+const detectionFilters = {
+    "Attack": null,
+    "Tactic Name": null, 
+    "Severity": null,
+    "Type": null,
+    "File Name": null
+};
+
+function isAnyFilterApplied(){
+}
+
+function createAppliedFilterElement(filter, value){
+    const appliedFilter = createElement('div', 'appliedFilter', `${filter}: ${value}`);
+    const deleteAppliedFilter = createElement('button', 'deleteAppliedFilterButton', 'x');
+    deleteAppliedFilter.addEventListener('click', (e)=>{
+        detectionFilters[filter] = null;
+        displayFilters();
+        filterDetectionItems();
+    })
+    appliedFilter.appendChild(deleteAppliedFilter);
+    return appliedFilter;
+}
+
+function displayFilters(){
+    const appliedFilters = document.querySelector('.appliedFilters');
+    appliedFilters.innerHTML = "";
+    let appliedFilterCount = 0;
+    Object.keys(detectionFilters).forEach(key=>{
+        if(detectionFilters[key] !== null && typeof detectionFilters[key] === "string"){
+            appliedFilters.appendChild(createAppliedFilterElement(key, detectionFilters[key]));
+            appliedFilterCount++;
+        }
+    });
+    if(appliedFilterCount > 0){
+        appliedFilters.parentElement.querySelector('.clearFiltersButton').classList.remove('hide');
+    }
+    else{
+        appliedFilters.parentElement.querySelector('.clearFiltersButton').classList.add('hide');
+    }
+}
 
 // Helper function to obtain severity class for severity number
 function getSeverityClass(severity){
@@ -400,52 +440,122 @@ function displayDetectionItems(data = detectionsData){
     })
 }
 
-function filterDetectionItems(queryString = ""){
-    if(queryString.trim() === ""){
-        displayDetectionItems();
+function filterDetectionItems(){
+    // Go through each filter
+    // If a filter is null return true
+    // If a filter is not null, then stringmatch
+    const applyAttackFilter = function({detectionTabData}){
+        if(detectionFilters["Attack"]){
+            return detectionTabData["Detection Attack"].toLowerCase().includes(detectionFilters["Attack"].toLowerCase());
+        }
+        return true;
     }
-    else{
-        const filteredDetectionsData = detectionsData.filter(detectionItem => {
-            return Object.values(detectionItem).some(value => {
-                if (typeof value === 'string') {
-                  return value.toLowerCase().includes(queryString.toLowerCase());
-                } 
-                else if (typeof value === 'object' && value !== null) {
-                    return Object.values(value).some(innerValue => 
-                        typeof innerValue === 'string' && innerValue.toLowerCase().includes(queryString.toLowerCase())
-                    );
-                }
-            });
-        });
-        console.log(filteredDetectionsData);
-        displayDetectionItems(filteredDetectionsData);
+
+    const applyTacticNameFilter = function({mitreTabData}){
+        if(detectionFilters["Tactic Name"]){
+            return mitreTabData["Tactic Name"] ? mitreTabData["Tactic Name"].toLowerCase().includes(detectionFilters["Tactic Name"].toLowerCase()) : false
+        }
+        return true;
     }
+
+    const applySeverityFilter = function({severity}){
+        if(detectionFilters["Severity"]){
+            return severity === detectionFilters["Severity"].toLowerCase();
+        }
+        return true;
+    }   
+
+    const applyTypeFilter = function({title}){
+        if(detectionFilters["Type"]){
+            return title.toLowerCase().includes(detectionFilters["Type"].toLowerCase())
+        }
+        return true;
+    }
+
+    const applyFileNameFilter = function({blockActionParams}){
+        if(detectionFilters["File Name"]){
+            return blockActionParams["fileName"] ? blockActionParams.fileName.toLowerCase().includes(detectionFilters["File Name"].toLowerCase()) : false
+        }
+        return true;
+    }
+
+    const filteredDetectionsData = detectionsData.filter((data)=>{
+        return applyAttackFilter(data) && applyTacticNameFilter(data) && applySeverityFilter(data) && applyTypeFilter(data) && applyFileNameFilter(data);
+    })
+
+    displayDetectionItems(filteredDetectionsData);
 }
   
-// Implement Search Feature
-(function(){
-    const searchBar = document.querySelector('.searchBar');
-    searchBar.addEventListener('input', (e)=>{
-        const queryString = searchBar.value;
-        filterDetectionItems(queryString);
-    })
-})();
-
-// Show Hide Filter Menu
+// Search Filter Menu 
 (function(){
     const filterButton = document.querySelector('.filterButton');
-    filterButton.addEventListener('click', (e)=>{
-        filterButton.parentElement.querySelector('.filterMenu').classList.toggle('show');
-    })
-})();
-
-// Clear Applied Filters
-(function(){
+    const filterButtonContainer = document.querySelector('.filterButtonContainer');
+    const filterMenu = document.querySelector('.filterMenu');
+    const filterCategoryDropdown = document.querySelector('.filterCategoryDropdown')
+    const applyFilterButton = document.querySelector('.applyFilterButton');
+    const cancelFilterButton = document.querySelector('.cancelFilterButton');
     const clearFiltersButton = document.querySelector('.clearFiltersButton');
+    const severitySelector = document.querySelector('.severitySelector');
+    const searchInputContainer = document.querySelector('.searchInputContainer');
+    const searchBar = document.querySelector('.searchBar');
+
+    // Show/Hide Filter Menu
+    filterButton.addEventListener('click', (e)=>{
+       filterMenu.classList.toggle('show');
+       filterCategoryDropdown.value = "Attack";
+       searchBar.value = "";
+    })
+
+    // Hit enter to search from Filter Menu
+    filterMenu.addEventListener('keydown', (e)=>{
+        if(e.key === "Enter"){
+            applyFilterButton.click();
+        }
+    })
+
+    // Close Filter Menu when clicked outsite
+    document.addEventListener('click', (e)=>{
+        if(!filterButtonContainer.contains(e.target)){
+            filterMenu.classList.remove('show');
+        }
+    })
+
+    // Severity Selection Handler
+    filterCategoryDropdown.addEventListener('input',(e)=>{
+        if(filterCategoryDropdown.value === "Severity"){
+            severitySelector.classList.remove('hide');
+            searchInputContainer.classList.add('hide');
+        }
+        else{
+            severitySelector.classList.add('hide');
+            searchInputContainer.classList.remove('hide');
+        }
+    })
+
+    // Apply Filter Button
+    applyFilterButton.addEventListener('click', ()=>{
+        const filter = filterCategoryDropdown.value;
+        const value = filter === "Severity" ? severitySelector.value : searchBar.value;
+        if(value.trim() !== ""){
+            detectionFilters[filter] = value.trim();
+            searchBar.value = "";
+            displayFilters();
+            filterDetectionItems();
+        }
+    })
+
+    // Cancel Filter Menu
+    cancelFilterButton.addEventListener('click', ()=>{
+        filterCategoryDropdown.value = "Attack"
+        searchBar.value = "";
+        filterMenu.classList.remove('show');
+    })
+
+    // Clear All Filters Button
     clearFiltersButton.addEventListener('click', (e)=>{
-        const appliedFilters = clearFiltersButton.parentElement.querySelector('.appliedFilters');
-        appliedFilters.innerHTML = '';
-        clearFiltersButton.remove();
+        Object.keys(detectionFilters).forEach(key=>detectionFilters[key] = null);
+        displayFilters();
+        filterDetectionItems();
     })
 })();
 

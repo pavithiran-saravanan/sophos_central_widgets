@@ -390,10 +390,10 @@ input::-webkit-search-results-decoration {
 }
 
 .searchBar{
-  padding-left: 30px;
-  padding: 5px 5px 5px 26px;
+  padding: 5px 5px 5px 25px;
   color: #444; 
   height: 100%;
+  font-size: 12px;
 }
 
 /* Filter Container */
@@ -407,7 +407,7 @@ input::-webkit-search-results-decoration {
 }
 .appliedFilters{
   display: flex;
-  gap: 15px;
+  gap: 10px;
 }
 .appliedFilter{
   display: flex;
@@ -430,29 +430,31 @@ input::-webkit-search-results-decoration {
   padding: 20px;
   z-index: 1001;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 28px 28px 28px;
+  grid-template-columns: 45px 1fr 1fr 1fr 1fr;
+  grid-template-rows: 28px 28px 26px;
   row-gap: 12px;
   column-gap: 5px;
   background-color: #fff;
   font-size: 14px;
   display: none;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
 }
 .filterMenu.show{
   display: grid;
 }
-.filterLabel{
+.filterLabel, .valueLabel{
   grid-column: 1/2;
   display: grid;
   align-items: center;
+  font-size: 13px;
 }
-.valueLabel{
-  grid-column: 1/2;
-  display: grid;
-  align-items: center;
-}
-.filterCategoryDropdown{
+.filterCategoryDropdown, .severitySelector{
   grid-column: 2/-1;
+  font-size: 12px;
+  padding-left: 6px;
+}
+.severitySelector.hide{
+  display: none;
 }
 .deleteAppliedFilterButton{
   padding: 0px;
@@ -464,6 +466,9 @@ input::-webkit-search-results-decoration {
 .searchInputContainer{
   grid-column: 2/-1;
   position: relative;
+}
+.searchInputContainer.hide{
+  display: none;
 }
 .applyFilterButton{
   grid-column: 2/3;
@@ -481,4 +486,7 @@ input::-webkit-search-results-decoration {
   border: 1px solid lightgray;
   outline: none;
   border-radius: 4px;
+}
+.clearFiltersButton.hide{
+  display: none;
 }
