@@ -46,9 +46,26 @@ async function setData(params) {
     console.log(detections);
 
     // Parse data
-    let tacticTechniqueCounter = {};
+    let tacticTechniqueCounter = {
+        "Reconnaissance": {},
+        "Resource Development": {},
+        "Initial Access": {},
+        "Execution": {},
+        "Persistence": {},
+        "Privilege Escalation": {},
+        "Defense Evasion": {},
+        "Credential Access": {},
+        "Discovery": {},
+        "Lateral Movement": {},
+        "Collection": {},
+        "Command and Control": {},
+        "Exfilteration": {},
+        "Impact": {},
+    };
     let techniquesInfo = {};
-    let tacticTechniqueSeverity = {};
+    let tacticTechniqueSeverity = {
+
+    };
     detections.items.forEach(detection => {
         if (detection.mitreAttacks && detection.mitreAttacks.length > 0) {
             detection.mitreAttacks.forEach((attack) => {
@@ -64,7 +81,8 @@ async function setData(params) {
             });
         }
     });
-    console.log(tacticTechniqueCounter, techniquesInfo, tacticTechniqueSeverity);
+    // console.log(tacticTechniqueCounter, techniquesInfo, tacticTechniqueSeverity);
+    console.log(tacticTechniqueCounter);
 
     // Select and clear container
     const detectionsHeatMapContainer = document.querySelector('#detectionsHeatMapWidget');
