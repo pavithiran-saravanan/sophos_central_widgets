@@ -8,7 +8,12 @@ const detectionFilters = {
     "File Name": null
 };
 
-function isAnyFilterApplied(){
+function getLoadingElement(){
+    const loadingElement = createElement('div', 'loadingElement');
+    const loaderIcon = createElement('img', 'loaderIcon');
+    loaderIcon.setAttribute('src', '/app/images/spinner_solid_icon.png');
+    loadingElement.append(loaderIcon, createElement('spin', '', 'Loading...'));
+    return loadingElement;
 }
 
 function createAppliedFilterElement(filter, value){
@@ -97,7 +102,7 @@ function createElement(tag, className = '', textContent = '') {
 
 function createBlockActionButton(blockActionParams){
     const blockButton = createElement('button', 'actions-button block-button', 'Block');
-    const loadingElement = createElement('div', 'loadingElement', '...');
+    const loadingElement = getLoadingElement();
     blockButton.appendChild(loadingElement);
     blockButton.addEventListener('click', (e)=>{
         // Todo: Show loading icon
@@ -162,7 +167,7 @@ function createActionsDropdown(deviceId) {
     dropDownIcon.setAttribute("src", "/app/images/arrow_icon_solid.svg");
     actionsButton.appendChild(dropDownIcon);
     // Add loading element
-    actionsButton.appendChild(createElement('div', 'loadingElement', '...'));
+    actionsButton.appendChild(getLoadingElement());
     dropdownWrapper.appendChild(actionsButton);
 
     // Dropdown menu

@@ -92,7 +92,10 @@
   color: #444;
 }
 .actions-button.loading .loadingElement{
-  display: block;
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  gap: 5px;
 }
 
 .dropdown-menu {
@@ -489,4 +492,7 @@ input::-webkit-search-results-decoration {
 }
 .clearFiltersButton.hide{
   display: none;
+}
+.loaderIcon{
+  width: 15px;
 }
