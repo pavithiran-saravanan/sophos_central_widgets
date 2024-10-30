@@ -44,14 +44,23 @@ async function setData(params) {
   );
   const events = eventsData.items;
   let threatActors = 0;
+  let policyViolatedBlockedEvets = 0;
   events.map((event) => {
+    const type = event.type;
     const path = getPath(event.description);
     if (path) {
       threatActors++;
     }
+    if (type && (type.includes("::BLOCKED") || type.includes("::Blocked"))) {
+      policyViolatedBlockedEvets++;
+    }
   });
   const threatActorsCount = document.getElementById("threatActorsCount");
   threatActorsCount.innerText = threatActors;
+  const policyViolatedBlockedCount = document.getElementById(
+    "PolicyViolationBlocked"
+  );
+  policyViolatedBlockedCount.innerText = policyViolatedBlockedCount;
 
   const usersData = await fetch("/common/users").then(
     async (res) => await res.json()
