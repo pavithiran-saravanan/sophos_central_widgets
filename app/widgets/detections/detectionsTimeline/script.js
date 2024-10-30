@@ -488,6 +488,7 @@ function filterDetectionItems(){
   
 // Search Filter Menu 
 (function(){
+    const filterContainer = document.querySelector('.filterContainer');
     const filterButton = document.querySelector('.filterButton');
     const filterButtonContainer = document.querySelector('.filterButtonContainer');
     const filterMenu = document.querySelector('.filterMenu');
@@ -499,24 +500,24 @@ function filterDetectionItems(){
     const searchInputContainer = document.querySelector('.searchInputContainer');
     const searchBar = document.querySelector('.searchBar');
 
+    const hideFilterMenu = function(){
+        filterMenu.classList.remove('show');
+        filterCategoryDropdown.value = "Attack";
+        severitySelector.value = "Info";
+        severitySelector.classList.add('hide');
+        searchInputContainer.classList.remove('hide');
+        searchBar.value = "";
+    }
+
     // Show/Hide Filter Menu
     filterButton.addEventListener('click', (e)=>{
        filterMenu.classList.toggle('show');
-       filterCategoryDropdown.value = "Attack";
-       searchBar.value = "";
     })
 
     // Hit enter to search from Filter Menu
     filterMenu.addEventListener('keydown', (e)=>{
         if(e.key === "Enter"){
             applyFilterButton.click();
-        }
-    })
-
-    // Close Filter Menu when clicked outsite
-    document.addEventListener('click', (e)=>{
-        if(!filterButtonContainer.contains(e.target)){
-            filterMenu.classList.remove('show');
         }
     })
 
@@ -546,9 +547,7 @@ function filterDetectionItems(){
 
     // Cancel Filter Menu
     cancelFilterButton.addEventListener('click', ()=>{
-        filterCategoryDropdown.value = "Attack"
-        searchBar.value = "";
-        filterMenu.classList.remove('show');
+        hideFilterMenu();
     })
 
     // Clear All Filters Button
