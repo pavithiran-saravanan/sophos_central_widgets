@@ -1,11 +1,4 @@
-header{
-    float: right;
-    padding: 10px;
-    padding-right: 0;
-}
-
 .widgetsParent{
-    clear: both;
     display: flex;
     flex-wrap: wrap;
     gap: 12px;

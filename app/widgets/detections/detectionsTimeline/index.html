@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css" />
     <link rel="icon" type="image/x-icon" href="/app/images/favicon.ico" />
 
+    <script src="actions.js" defer></script>
     <script src="script.js" defer></script>
     <script src="/app/js/jquery-min.js"></script>
     <script src="/app/js/ZSDK.js"></script>
@@ -22,8 +23,45 @@
     <title>Log360 Cloud Widget</title>
   </head>
   <body>
+    <div class="alertBannerContainer"></div>
     <div class="widgetContainer detectionTimelineContainer">
         <div class="widgetChart timeline-container" id="detectionTimelineWidget">
+          <div class="filterContainer">
+            <div class="appliedFiltersContainer">
+              <div class="appliedFilters"></div>
+              <button class="clearFiltersButton hide">Clear All</button>
+            </div>
+            <div class="filterButtonContainer">
+              <div class="filterButton">
+                <img src="/app/images/filter_icon.svg" alt="" class="filterIcon">
+                <span>Filters</span>
+              </div>
+              <div class="filterMenu">
+                <div class="filterLabel">Filter</div>
+                <select name="filterCategoryDropdown" id="filterCategoryDropdown" class="filterCategoryDropdown input">
+                  <option value="Attack">Attack</option>
+                  <option value="Tactic Name">Tactic Name</option>
+                  <option value="Severity">Severity</option>
+                  <option value="Type">Type</option>
+                  <option value="File Name">File Name</option>
+                </select>
+                <div class="valueLabel">Value</div>
+                <select name="severitySelector" id="severitySelector" class="severitySelector input hide">
+                  <option value="Info">Info</option>
+                  <option value="Low">Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                  <option value="Critical">Critical</option>
+                </select>
+                <div class="searchInputContainer">
+                  <img src="/app/images/search_icon.svg" alt="" class="searchIcon">
+                  <input type="search" name="seachBar" class="searchBar input" placeholder="Search">
+                </div>
+                <button class="applyFilterButton">Apply</button>
+                <button class="cancelFilterButton">Cancel</button>
+              </div>
+            </div>
+          </div>
           <div id="timeline">
           </div>
         </div>

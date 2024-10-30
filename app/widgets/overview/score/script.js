@@ -58,9 +58,7 @@ const columnChart = {
 
 async function setData(params) {
   console.log("fetching data...");
-  const data = await fetch("/health-check").then(
-    async (res) => await res.json()
-  );
+  const data = await fetch("/scores").then(async (res) => await res.json());
   console.log("data ", data);
   const computerScore = [];
   const serverScore = [];
@@ -72,7 +70,9 @@ async function setData(params) {
   computerScore.push(endpoint.exclusions.policy.computer.score);
   computerScore.push(endpoint.tamperProtection.computer.score);
   serverScore.push(endpoint.protection.server.score);
-  serverScore.push(endpoint.policy.server["server-threat-protection"].score);
+  serverScore.push(
+    endpoint.policy.server["server-threat-protection"].score
+  );
   serverScore.push(endpoint.exclusions.policy.server.score);
   serverScore.push(endpoint.tamperProtection.server.score);
   globalScore.push(endpoint.exclusions.global.score);

@@ -33,7 +33,7 @@ async function setData(params) {
   );
   infectedEndpointsCount.innerText = suspicious;
 
-  const applicationData = await fetch("/endpoints/applications").then(
+  const applicationData = await fetch("/applications").then(
     async (res) => await res.json()
   );
   const appConnectionsCount = document.getElementById("appConnectionsCount");
@@ -44,27 +44,24 @@ async function setData(params) {
   );
   const events = eventsData.items;
   let threatActors = 0;
-  let policyViolatedBlockedEvets = 0;
+  let PolicyViolationBlocked = 0;
   events.map((event) => {
     const type = event.type;
     const path = getPath(event.description);
     if (path) {
       threatActors++;
     }
-    if (type && (type.includes("::BLOCKED") || type.includes("::Blocked"))) {
-      policyViolatedBlockedEvets++;
+    if ((type && type.includes("::BLOCKED")) || type.includes("::Blocked")) {
+      PolicyViolationBlocked++;
     }
   });
   const threatActorsCount = document.getElementById("threatActorsCount");
   threatActorsCount.innerText = threatActors;
-  const policyViolatedBlockedCount = document.getElementById(
+  const PolicyViolationBlockedCount = document.getElementById(
     "PolicyViolationBlocked"
   );
-  policyViolatedBlockedCount.innerText = policyViolatedBlockedCount;
-
-  const usersData = await fetch("/common/users").then(
-    async (res) => await res.json()
-  );
+  PolicyViolationBlockedCount.innerText = PolicyViolationBlocked;
+  const usersData = await fetch("/users").then(async (res) => await res.json());
   const usersCount = document.getElementById("usersCount");
   usersCount.innerText = usersData.items.length;
 }
