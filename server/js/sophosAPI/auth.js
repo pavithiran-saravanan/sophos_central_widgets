@@ -8,55 +8,33 @@ const authProp = {
   dataRegion: process.env.DATA_REGION,
 };
 
-async function Authenticate() {
-  try {
-    console.log("auth req");
-
-    // if (authProp.isRunning) {
-    //   console.log(
-    //     "Auth request is already running, waiting for it to finish..."
-    //   );
-    //   await new Promise((resolve) => {
-    //     const interval = setInterval(() => {
-    //       if (!authProp.isRunning) {
-    //         clearInterval(interval);
-    //         resolve();
-    //       }
-    //     }, 500); // Check every 500ms if the help function is done
-    //   });
-    //   return;
-    // }
-
-    authProp.isRunning = true;
-
-    await fetch("https://id.sophos.com/api/v2/oauth2/token", {
-      method: "POST",
-      body: new URLSearchParams({
-        grant_type: "client_credentials",
-        scope: "token",
-        client_id: clientId,
-        client_secret: clietSecret,
-      }),
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    }).then(async (res) => {
-      const data = await res.json();
-      console.log("Auth response", data);
-      if (!res.ok) {
-        throw new Error("Authentication Error", res);
-      }
-      authProp.access_token = data.access_token;
-      authProp.refresh_token = data.refresh_token;
-
-      authProp.status = "start";
-    });
-  } catch (err) {
+const authPromise = fetch("https://id.sophos.com/api/v2/oauth2/token", {
+  method: "POST",
+  body: new URLSearchParams({
+    grant_type: "client_credentials",
+    scope: "token",
+    client_id: clientId,
+    client_secret: clietSecret,
+  }),
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded",
+  },
+})
+  .then(async (res) => {
+    const data = await res.json();
+    console.log("Auth response", data);
+    if (!res.ok) {
+      throw new Error("Authentication Error", res);
+    }
+    authProp.access_token = data.access_token;
+    authProp.refresh_token = data.refresh_token;
+  })
+  .catch((err) => {
     console.log("auth error", err);
-    throw err;
-  } finally {
-    authProp.isRunning = false;
-  }
+  });
+
+async function Authenticate() {
+  return await authPromise;
 }
 
 module.exports = {

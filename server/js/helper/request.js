@@ -11,7 +11,7 @@ async function getRequest(URL, res, reqBody) {
       //   body: reqBody ? JSON.stringify(reqBody) : JSON.stringify({}),
     }).then(async (res) => {
       const data = await res.json();
-      //console.log("response data", data);
+      console.log("response data", data);
       if (res.status === 401) {
         await Authenticate();
         console.log("new access_token", authProp.access_token);
@@ -28,7 +28,7 @@ async function getRequest(URL, res, reqBody) {
   } catch (err) {
     console.log(err);
     console.log(URL);
-    if (res) res.status(500).send(data);
+    if (res) res.status(500).send({ error: "something wrong" });
   }
 }
 

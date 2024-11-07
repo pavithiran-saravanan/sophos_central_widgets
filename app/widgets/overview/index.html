@@ -18,7 +18,7 @@
     <link rel="icon" type="image/x-icon" href="/app/images/favicon.ico" />
 
     <!-- Scripts -->
-    <script type="module" src="score/script.js" defer></script>
+    <!-- <script type="module" src="score/script.js" defer></script>
     <script type="module" src="summary/script.js" defer></script>
     <script type="module" src="threatActors/script.js" defer></script>
     <script type="module" src="threatsOverTime/script.js" defer></script>
@@ -27,7 +27,8 @@
       src="cleanableVsNonCleanableThreats/script.js"
       defer
     ></script>
-    <script type="module" src="topAlerts/script.js" defer></script>
+    <script type="module" src="topAlerts/script.js" defer></script> -->
+    <script type="module" src="script.js" defer></script>
 
     <script src="/app/js/jquery-min.js"></script>
     <script src="/app/js/ZSDK.js"></script>
@@ -62,7 +63,7 @@
           </div>
           <div class="overviewItem">
             <div class="itemTitle">Policy Violation Blocked</div>
-            <div class="itemValue" id="PolicyViolationBlocked">0</div>
+            <div class="itemValue" id="policyViolationBlocked">0</div>
           </div>
 
           <div class="overviewItem">
@@ -77,41 +78,33 @@
       </div>
 
       <!-- Score -->
-      <div
-        class="widgetContainer chartWidgetContainer scoreWidgetContainer"
-        id=""
-      >
+      <div class="widgetContainer chartWidgetContainer scoreWidgetContainer" id="">
         <div class="widgetTitle">Score</div>
         <div id="scoreChart" class=""></div>
-        <div id="container"></div>
       </div>
 
       <!-- Threat Actors -->
       <div class="widgetContainer tableWidgetContainer" id="">
         <div class="widgetTitle">Threat Actors</div>
-        <div id="table-container"></div>
-        <div id="container"></div>
+        <div id="threat-table-container"></div>
       </div>
 
       <!-- Cleanable vs Non-Cleanable Threats -->
       <div class="widgetContainer chartWidgetContainer" id="">
         <div class="widgetTitle">Cleanable Vs Non-Cleanable Threats</div>
         <div id="endpointsHealth" class=""></div>
-        <div id="container"></div>
       </div>
 
       <!-- Threats Over Time -->
       <div class="widgetContainer chartWidgetContainer" id="">
         <div class="widgetTitle">Threats Over Time</div>
         <div id="threatsOverTime" class=""></div>
-        <div id="container"></div>
       </div>
 
       <!-- Top Alerts -->
       <div class="widgetContainer chartWidgetContainer" id="">
         <div class="widgetTitle">Top Alerts</div>
         <div id="top-alerts" class=""></div>
-        <div id="container"></div>
       </div>
     </div>
   </body>
